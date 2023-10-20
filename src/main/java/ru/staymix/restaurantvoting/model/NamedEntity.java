@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.staymix.restaurantvoting.util.validation.NoHtml;
 
-
 @MappedSuperclass
 @Getter
 @Setter
