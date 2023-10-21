@@ -10,7 +10,11 @@ VALUES ('User', 'user@yandex.ru', '{noop}password'),
 INSERT INTO USER_ROLE (role, user_id)
 VALUES ('USER', 1),
        ('ADMIN', 2),
-       ('USER', 2);
+       ('USER', 2),
+       ('USER', 4),
+       ('USER', 5),
+       ('USER', 6),
+       ('USER', 7);
 
 INSERT INTO RESTAURANT (name)
 VALUES ('Sabine'),
@@ -37,12 +41,12 @@ VALUES ('Gouda & Bacon Goughnuts', 15, 'Siracha & maple mayo, bacon dust', 1688,
        ('Old School Sausage & Peppers', 17, 'Fennel Sausage, Caramelized Onions, Roasted Red Pepper, San Marzano Tomato Gravy, Toasted Baguette', 963, now() -4, 4),
 
        ('For The Sea Food And Surf & Turf Lover', 45, 'Grilled Lobster Whole', 378, now() -5, 5),
-       ('‘The Westminster’ Beef Flank Sandwich', 26, 'Iceberg, Horseradish Crème Fraiche, Piccalilli, Sour Dough', 737, now() -5, 5),
+       ('The Westminster’ Beef Flank Sandwich', 26, 'Iceberg, Horseradish Crème Fraiche, Piccalilli, Sour Dough', 737, now() -5, 5),
        ('Gillray’s Wagyu Steak Burger', 28, 'Brioche Bun, Smoked Cheddar, Bacon Jam, Pickle, Lettuce, Tomato', 847, now() -5, 5);
 
 INSERT INTO VOTE (vote_date, vote_time, user_id, restaurant_id)
 VALUES (now(), '8:00', 1, 3),
-       (now(), '9:00', 2, 3),
-       (now(), '10:00', 3, 4),
+       (now(), '9:00', 7, 3),
+       (now(), '10:00', 6, 4),
        (now(), '11:00', 4, 1),
        (now(), '12:00', 5, 2);

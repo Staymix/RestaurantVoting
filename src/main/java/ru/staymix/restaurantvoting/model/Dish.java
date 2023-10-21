@@ -5,10 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.validator.constraints.Range;
 import ru.staymix.restaurantvoting.util.validation.NoHtml;
 
@@ -18,6 +15,7 @@ import java.time.LocalDate;
 @Table(name = "dish", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "name"}, name = "dish_unique_restaurant_name_idx")})
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Dish extends NamedEntity {
 
@@ -47,15 +45,11 @@ public class Dish extends NamedEntity {
     @NotNull
     private Restaurant restaurant;
 
-    @Override
-    public String toString() {
-        return "Dish{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", description='" + description + '\'' +
-                ", dishDate=" + dishDate +
-                ", restaurant=" + restaurant +
-                '}';
+    public Dish(Integer id, String name, @NotNull Integer price, String description, @NotNull Integer calories, @NotNull LocalDate dishDate) {
+        super(id, name);
+        this.price = price;
+        this.description = description;
+        this.calories = calories;
+        this.dishDate = dishDate;
     }
 }
