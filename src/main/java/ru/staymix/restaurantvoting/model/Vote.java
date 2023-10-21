@@ -12,19 +12,19 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
-@Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date"}, name = "vote_unique_user_date_idx")})
+@Table(name = "vote", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "vote_date"}, name = "vote_unique_user_date_idx")})
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Vote extends NamedEntity {
+public class Vote extends BaseEntity {
 
-    @Column(name = "date")
+    @Column(name = "vote_date")
     @NotNull
-    private LocalDate date;
+    private LocalDate voteDate;
 
-    @Column(name = "time")
+    @Column(name = "vote_time")
     @NotNull
-    private LocalTime time;
+    private LocalTime voteTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
@@ -42,9 +42,8 @@ public class Vote extends NamedEntity {
     public String toString() {
         return "Vote{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", date=" + date +
-                ", time=" + time +
+                ", voteDate=" + voteDate +
+                ", voteTime=" + voteTime +
                 '}';
     }
 }

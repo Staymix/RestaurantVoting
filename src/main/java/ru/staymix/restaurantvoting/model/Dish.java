@@ -15,7 +15,7 @@ import ru.staymix.restaurantvoting.util.validation.NoHtml;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "dishes", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "name"}, name = "dish_unique_restaurant_name_idx")})
+@Table(name = "dish", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "name"}, name = "dish_unique_restaurant_name_idx")})
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -37,9 +37,9 @@ public class Dish extends NamedEntity {
     @Range(min = 10, max = 5000)
     private Integer calories;
 
-    @Column(name = "date")
+    @Column(name = "dish_date")
     @NotNull
-    private LocalDate date;
+    private LocalDate dishDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
@@ -54,7 +54,7 @@ public class Dish extends NamedEntity {
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", description='" + description + '\'' +
-                ", date=" + date +
+                ", dishDate=" + dishDate +
                 ", restaurant=" + restaurant +
                 '}';
     }
