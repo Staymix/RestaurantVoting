@@ -3,6 +3,7 @@ package ru.staymix.restaurantvoting.util.validation;
 import lombok.experimental.UtilityClass;
 import ru.staymix.restaurantvoting.HasId;
 import ru.staymix.restaurantvoting.error.IllegalRequestDataException;
+import ru.staymix.restaurantvoting.error.NotFoundException;
 
 @UtilityClass
 public class ValidationUtil {
@@ -19,6 +20,26 @@ public class ValidationUtil {
             bean.setId(id);
         } else if (bean.id() != id) {
             throw new IllegalRequestDataException(bean.getClass().getSimpleName() + " must has id=" + id);
+        }
+    }
+
+    public static <T> T checkNotFoundWithId(T object, int id) {
+        checkNotFoundWithId(object != null, id);
+        return object;
+    }
+
+    public static void checkNotFoundWithId(boolean found, int id) {
+        checkNotFound(found, "id=" + id);
+    }
+
+    public static <T> T checkNotFound(T object, String msg) {
+        checkNotFound(object != null, msg);
+        return object;
+    }
+
+    public static void checkNotFound(boolean found, String msg) {
+        if (!found) {
+            throw new NotFoundException("Not found entity with " + msg);
         }
     }
 }
