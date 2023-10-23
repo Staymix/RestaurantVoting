@@ -1,12 +1,15 @@
 package ru.staymix.restaurantvoting.service;
 
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import ru.staymix.restaurantvoting.error.DataConflictException;
+import ru.staymix.restaurantvoting.error.IllegalRequestDataException;
 import ru.staymix.restaurantvoting.model.Vote;
 import ru.staymix.restaurantvoting.repository.VoteRepository;
 
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.util.Assert.notNull;
 import static ru.staymix.restaurantvoting.util.validation.ValidationUtil.checkNotFoundWithId;
@@ -14,12 +17,13 @@ import static ru.staymix.restaurantvoting.util.validation.ValidationUtil.checkNo
 @Service
 @AllArgsConstructor
 public class VoteService {
-    private static final Sort SORT_DATE = Sort.by(Sort.Direction.ASC, "date");
-
     private final VoteRepository repository;
 
     public Vote create(Vote vote, int userId) {
         notNull(vote, "vote must not be null");
+        if (hasVoteToday(vote.id(), userId)) {
+            throw new DataConflictException("Vote already exists for today");
+        }
         return repository.save(vote);
     }
 
@@ -30,11 +34,27 @@ public class VoteService {
     }
 
     public List<Vote> getAll(int userId) {
-        return repository.findAll(SORT_DATE);
+        return repository.getAll(userId);
     }
 
     public void update(Vote vote, int userId) {
         notNull(vote, "vote must not be null");
+        if (isBeforeTimeLimit(vote.id(), userId)) {
+            throw new IllegalRequestDataException("Voting is over");
+        }
         checkNotFoundWithId(repository.save(vote), vote.id());
+    }
+
+    private boolean hasVoteToday(int id, int userId) {
+        return getToday(id, userId).isPresent();
+    }
+
+    private boolean isBeforeTimeLimit(int id, int userId) {
+        Optional<Vote> vote = getToday(id, userId);
+        return vote.map(value -> value.getVoteTime().isBefore(LocalTime.of(11, 0))).orElse(false);
+    }
+
+    private Optional<Vote> getToday(int id, int userId) {
+        return repository.getToday(id, userId);
     }
 }
