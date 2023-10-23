@@ -9,6 +9,7 @@ import ru.staymix.restaurantvoting.repository.VoteRepository;
 import java.util.List;
 
 import static org.springframework.util.Assert.notNull;
+import static ru.staymix.restaurantvoting.util.validation.ValidationUtil.checkNotFoundWithId;
 
 @Service
 @AllArgsConstructor
@@ -34,6 +35,6 @@ public class VoteService {
 
     public void update(Vote vote, int userId) {
         notNull(vote, "vote must not be null");
-        repository.save(vote);
+        checkNotFoundWithId(repository.save(vote), vote.id());
     }
 }

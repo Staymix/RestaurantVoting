@@ -37,7 +37,7 @@ public class RestaurantService {
 
     public void update(Restaurant restaurant) {
         notNull(restaurant, "restaurant must not be null");
-        repository.save(restaurant);
+        checkNotFoundWithId(repository.save(restaurant), restaurant.id());
     }
 
     public Restaurant getWithMenu(int id) {
