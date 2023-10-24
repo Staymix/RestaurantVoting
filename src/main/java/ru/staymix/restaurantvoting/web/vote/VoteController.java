@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.staymix.restaurantvoting.model.Vote;
 import ru.staymix.restaurantvoting.service.VoteService;
+import ru.staymix.restaurantvoting.to.VoteTo;
+import ru.staymix.restaurantvoting.util.VotesUtil;
 import ru.staymix.restaurantvoting.web.AuthUser;
 
 import java.net.URI;
@@ -22,7 +24,7 @@ import static ru.staymix.restaurantvoting.util.validation.ValidationUtil.checkNe
 public class VoteController {
     static final String REST_URL = "api/votes";
 
-    protected VoteService service;
+    private VoteService service;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Vote> createWithLocation(@RequestBody Vote vote) {
@@ -37,10 +39,10 @@ public class VoteController {
     }
 
     @GetMapping()
-    public List<Vote> getAll() {
+    public List<VoteTo> getAll() {
         int userId = AuthUser.authId();
         log.info("getAll for user id={}", userId);
-        return service.getAll(userId);
+        return VotesUtil.getTos(service.getAll(userId));
     }
 
     @PutMapping(value = "/{id}")
