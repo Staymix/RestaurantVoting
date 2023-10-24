@@ -24,7 +24,7 @@ import static ru.staymix.restaurantvoting.util.validation.ValidationUtil.checkNe
 public class VoteController {
     static final String REST_URL = "api/votes";
 
-    private VoteService service;
+    protected VoteService service;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Vote> createWithLocation(@RequestBody Vote vote) {

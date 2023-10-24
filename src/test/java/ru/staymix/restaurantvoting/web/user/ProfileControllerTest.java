@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.staymix.restaurantvoting.web.user.ProfileController.REST_URL;
-import static ru.staymix.restaurantvoting.web.user.UserTestData.*;
+import static ru.staymix.restaurantvoting.web.testdata.UserTestData.*;
 
 class ProfileControllerTest extends AbstractControllerTest {
 
@@ -45,7 +45,7 @@ class ProfileControllerTest extends AbstractControllerTest {
     void delete() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL))
                 .andExpect(status().isNoContent());
-        USER_MATCHER.assertMatch(repository.findAll(), admin, guest);
+        USER_MATCHER.assertMatch(repository.findAll(), admin, guest, user2, user3, user4, user5);
     }
 
     @Test
