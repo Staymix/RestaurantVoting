@@ -1,11 +1,13 @@
 package ru.staymix.restaurantvoting.testdata;
 
 import ru.staymix.restaurantvoting.model.Dish;
+import ru.staymix.restaurantvoting.web.MatcherFactory;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public class DishTestData {
+    public static final MatcherFactory.Matcher<Dish> DISH_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(Dish.class, "restaurant");
     public static final int DISH_ID = 1;
     public static final int DISH_NOT_FOUND = 9999;
     public static final Dish dish1 = new Dish(DISH_ID, "Gouda & Bacon Goughnuts", 15, "Siracha & maple mayo, bacon dust", 1688, LocalDate.now().minusDays(1));
@@ -23,7 +25,7 @@ public class DishTestData {
     public static final Dish dish13 = new Dish(DISH_ID + 12, "For The Sea Food And Surf & Turf Lover", 45, "Grilled Lobster Whole", 378, LocalDate.now().minusDays(5));
     public static final Dish dish14 = new Dish(DISH_ID + 13, "The Westminster’ Beef Flank Sandwich", 26, "Iceberg, Horseradish Crème Fraiche, Piccalilli, Sour Dough", 737, LocalDate.now().minusDays(5));
     public static final Dish dish15 = new Dish(DISH_ID + 14, "Gillray’s Wagyu Steak Burger", 28, "Brioche Bun, Smoked Cheddar, Bacon Jam, Pickle, Lettuce, Tomato", 847, LocalDate.now().minusDays(5));
-    public static final List<Dish> menu1 = List.of(dish1, dish2, dish3);
+    public static final List<Dish> menu1 = List.of(dish3, dish1, dish2);
     public static final List<Dish> menu2 = List.of(dish4, dish5, dish6);
     public static final List<Dish> menu3 = List.of(dish7, dish8, dish9);
     public static final List<Dish> menu4 = List.of(dish10, dish11, dish12);
