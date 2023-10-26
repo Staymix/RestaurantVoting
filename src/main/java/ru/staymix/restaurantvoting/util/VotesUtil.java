@@ -18,6 +18,6 @@ public class VotesUtil {
     }
 
     public static VoteTo createTo(Vote vote) {
-        return new VoteTo(vote.id(), vote.getRestaurant().id());
+        return new VoteTo(vote.id(), vote.getRestaurant().id(), vote.getVoteDate());
     }
 }
