@@ -17,8 +17,8 @@ import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.staymix.restaurantvoting.testdata.UserTestData.*;
 import static ru.staymix.restaurantvoting.web.user.ProfileController.REST_URL;
-import static ru.staymix.restaurantvoting.web.testdata.UserTestData.*;
 
 class ProfileControllerTest extends AbstractControllerTest {
 

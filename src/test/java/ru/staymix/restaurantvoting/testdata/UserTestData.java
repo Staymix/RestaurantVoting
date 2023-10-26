@@ -1,4 +1,4 @@
-package ru.staymix.restaurantvoting.web.testdata;
+package ru.staymix.restaurantvoting.testdata;
 
 import ru.staymix.restaurantvoting.model.Role;
 import ru.staymix.restaurantvoting.model.User;
@@ -35,7 +35,7 @@ public class UserTestData {
         return new User(USER_ID, "UpdatedName", USER_MAIL, "newPass", false, new Date(), Collections.singleton(Role.ADMIN));
     }
 
-    public static String jsonWithPassword(User user, String passw) {
-        return JsonUtil.writeAdditionProps(user, "password", passw);
+    public static String jsonWithPassword(User user, String password) {
+        return JsonUtil.writeAdditionProps(user, "password", password);
     }
 }

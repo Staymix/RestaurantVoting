@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.staymix.restaurantvoting.web.testdata.UserTestData.*;
+import static ru.staymix.restaurantvoting.testdata.UserTestData.*;
 import static ru.staymix.restaurantvoting.web.user.AdminUserController.REST_URL;
 
 class AdminUserControllerTest extends AbstractControllerTest {

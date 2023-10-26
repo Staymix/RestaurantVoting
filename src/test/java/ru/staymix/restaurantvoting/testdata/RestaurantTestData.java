@@ -1,10 +1,10 @@
-package ru.staymix.restaurantvoting.web.testdata;
+package ru.staymix.restaurantvoting.testdata;
 
 import ru.staymix.restaurantvoting.model.Restaurant;
 
 import java.util.List;
 
-import static ru.staymix.restaurantvoting.web.testdata.DishTestData.*;
+import static ru.staymix.restaurantvoting.testdata.DishTestData.*;
 
 public class RestaurantTestData {
     public static final int REST_ID = 1;

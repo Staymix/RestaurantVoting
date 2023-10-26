@@ -1,4 +1,4 @@
-package ru.staymix.restaurantvoting.web.testdata;
+package ru.staymix.restaurantvoting.testdata;
 
 import ru.staymix.restaurantvoting.model.Dish;
 

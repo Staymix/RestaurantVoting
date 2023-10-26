@@ -1,5 +1,6 @@
 package ru.staymix.restaurantvoting.web.dish;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,6 +21,7 @@ import static ru.staymix.restaurantvoting.util.validation.ValidationUtil.checkNe
 @RestController
 @RequestMapping(value = AdminDishController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
+@AllArgsConstructor
 public class AdminDishController {
     static final String REST_URL = AdminRestaurantController.REST_URL + "{restaurantId}/dishes";
     protected DishService service;
