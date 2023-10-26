@@ -5,9 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
@@ -16,20 +13,8 @@ public class VoteTo extends BaseTo {
 
     private final int restaurantId;
 
-    private final int userId;
-
-    private final LocalDate voteDate;
-
-    private final LocalTime voteTime;
-
-    private final boolean isModifiable;
-
-    public VoteTo(Integer id, int restaurantId, int userId, LocalDate voteDate, LocalTime voteTime, boolean isModifiable) {
+    public VoteTo(Integer id, int restaurantId) {
         super(id);
         this.restaurantId = restaurantId;
-        this.userId = userId;
-        this.voteDate = voteDate;
-        this.voteTime = voteTime;
-        this.isModifiable = isModifiable;
     }
 }
