@@ -1,16 +1,21 @@
 package ru.staymix.restaurantvoting.web.restaurant;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.staymix.restaurantvoting.model.Restaurant;
 import ru.staymix.restaurantvoting.service.RestaurantService;
+import ru.staymix.restaurantvoting.to.RestaurantTo;
 
 import java.util.List;
 
+import static ru.staymix.restaurantvoting.util.RestaurantsUtil.createTo;
+import static ru.staymix.restaurantvoting.util.RestaurantsUtil.getTos;
 import static ru.staymix.restaurantvoting.util.validation.ValidationUtil.assureIdConsistent;
 import static ru.staymix.restaurantvoting.util.validation.ValidationUtil.checkNew;
 
 @Slf4j
 public abstract class AbstractRestaurantController {
+    @Autowired
     protected RestaurantService service;
 
     public Restaurant create(Restaurant restaurant) {
@@ -24,14 +29,14 @@ public abstract class AbstractRestaurantController {
         service.delete(id);
     }
 
-    public Restaurant get(int id) {
+    public RestaurantTo get(int id) {
         log.info("get {}", id);
-        return service.get(id);
+        return createTo(service.get(id));
     }
 
-    public List<Restaurant> getAll() {
+    public List<RestaurantTo> getAll() {
         log.info("getAll");
-        return service.getAll();
+        return getTos(service.getAll());
     }
 
     public void update(Restaurant restaurant, int id) {
