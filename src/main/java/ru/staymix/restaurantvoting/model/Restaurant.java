@@ -24,9 +24,8 @@ public class Restaurant extends NamedEntity {
     @JsonBackReference // https://stackoverflow.com/a/31319631/21671674
     private List<Dish> menu;
 
-    public Restaurant(Integer id, String name, List<Dish> menu) {
+    public Restaurant(Integer id, String name) {
         super(id, name);
-        this.menu = menu;
     }
 
     @Override

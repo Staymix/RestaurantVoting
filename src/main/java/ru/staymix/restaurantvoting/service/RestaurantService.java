@@ -3,9 +3,11 @@ package ru.staymix.restaurantvoting.service;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import ru.staymix.restaurantvoting.model.Dish;
 import ru.staymix.restaurantvoting.model.Restaurant;
 import ru.staymix.restaurantvoting.repository.RestaurantRepository;
 
+import java.util.Comparator;
 import java.util.List;
 
 import static org.springframework.util.Assert.notNull;
@@ -41,6 +43,15 @@ public class RestaurantService {
     }
 
     public Restaurant getWithMenu(int id) {
-        return checkNotFoundWithId(repository.getWithMenu(id), id);
+        Restaurant restaurant = repository.getWithMenu(id);
+        checkNotFoundWithId(restaurant, id);
+        restaurant.setMenu(sortMenu(restaurant.getMenu()));
+        return restaurant;
+    }
+
+    private List<Dish> sortMenu(List<Dish> menu) {
+        return menu.stream()
+                .sorted(Comparator.comparing(Dish::getName))
+                .toList();
     }
 }
