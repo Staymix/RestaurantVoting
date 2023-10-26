@@ -20,6 +20,4 @@ public interface DishRepository extends BaseRepository<Dish> {
 
     @Query("SELECT d FROM Dish d WHERE d.restaurant.id =:restaurantId AND d.dishDate =:date ORDER BY d.name, d.price")
     List<Dish> getMenuFromDate(int restaurantId, LocalDate date);
-
-
 }
