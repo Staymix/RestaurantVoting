@@ -29,7 +29,7 @@ import static ru.staymix.restaurantvoting.util.validation.ValidationUtil.checkNe
 @Slf4j
 @AllArgsConstructor
 public class VoteController {
-    static final String REST_URL = "api/votes";
+    static final String REST_URL = "api/user/votes";
     protected VoteService voteService;
     protected RestaurantService restaurantService;
 

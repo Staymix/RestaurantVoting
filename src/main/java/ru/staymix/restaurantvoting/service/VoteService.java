@@ -41,7 +41,7 @@ public class VoteService {
         if (!isBeforeTimeLimit(vote) || !hasVoteTodayByUser(userId)) {
             throw new IllegalRequestDataException("Voting is over");
         }
-        checkNotFoundWithId(repository.save(vote), vote.id());
+        repository.save(vote);
     }
 
     private boolean hasVoteTodayByUser(int userId) {

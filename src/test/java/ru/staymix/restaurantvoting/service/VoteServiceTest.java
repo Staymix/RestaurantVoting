@@ -70,7 +70,7 @@ class VoteServiceTest extends AbstractServiceTest {
 
     @Test
     void updateHasNotToday() {
-        Vote updated = new Vote(VOTE_ID, LocalDate.now(), LocalTime.of(11, 0), admin, restaurant2);
+        Vote updated = new Vote(VOTE_ID, LocalDate.now(), LocalTime.of(10, 0), admin, restaurant2);
         assertThrows(IllegalRequestDataException.class, () -> service.update(updated, ADMIN_ID));
     }
 }
