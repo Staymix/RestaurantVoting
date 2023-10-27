@@ -27,24 +27,24 @@ class RestaurantServiceTest extends AbstractServiceTest {
 
     @Test
     void delete() {
-        service.delete(REST_ID);
-        assertThrows(NotFoundException.class, () -> service.get(REST_ID));
+        service.delete(RESTAURANT_ID);
+        assertThrows(NotFoundException.class, () -> service.get(RESTAURANT_ID));
     }
 
     @Test
     void deleteNotFound() {
-        assertThrows(NotFoundException.class, () -> service.delete(REST_NOT_FOUND));
+        assertThrows(NotFoundException.class, () -> service.delete(RESTAURANT_NOT_FOUND));
     }
 
     @Test
     void get() {
-        Restaurant restaurant = service.get(REST_ID);
+        Restaurant restaurant = service.get(RESTAURANT_ID);
         RESTAURANT_MATCHER.assertMatch(restaurant, restaurant1);
     }
 
     @Test
     void getNotFound() {
-        assertThrows(NotFoundException.class, () -> service.get(REST_NOT_FOUND));
+        assertThrows(NotFoundException.class, () -> service.get(RESTAURANT_NOT_FOUND));
     }
 
     @Test
@@ -57,18 +57,18 @@ class RestaurantServiceTest extends AbstractServiceTest {
     void update() {
         Restaurant updated = getUpdated();
         service.update(updated);
-        RESTAURANT_MATCHER.assertMatch(updated, service.get(REST_ID));
+        RESTAURANT_MATCHER.assertMatch(updated, service.get(RESTAURANT_ID));
     }
 
     @Test
     void getWithMenu() {
-        Restaurant actual = service.getWithMenu(REST_ID);
+        Restaurant actual = service.getWithMenu(RESTAURANT_ID);
         RESTAURANT_WITH_MENU_MATCHER.assertMatch(actual, restaurant1);
     }
 
     @Test
     void getWithMenuNotFound() {
         assertThrows(NotFoundException.class,
-                () -> service.getWithMenu(REST_NOT_FOUND));
+                () -> service.getWithMenu(RESTAURANT_NOT_FOUND));
     }
 }

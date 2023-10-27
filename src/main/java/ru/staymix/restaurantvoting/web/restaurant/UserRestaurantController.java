@@ -11,7 +11,7 @@ import ru.staymix.restaurantvoting.to.RestaurantTo;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = UserRestaurantController.REST_URL, consumes = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = UserRestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserRestaurantController extends AbstractRestaurantController {
     static final String REST_URL = "/api/user/restaurants";
 

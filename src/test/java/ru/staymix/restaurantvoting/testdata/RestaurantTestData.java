@@ -14,14 +14,14 @@ public class RestaurantTestData {
                     (a, e) -> {
                         throw new UnsupportedOperationException();
                     });
-    public static final int REST_ID = 1;
-    public static final int REST2_ID = 2;
-    public static final int REST_NOT_FOUND = 9999;
-    public static final Restaurant restaurant1 = new Restaurant(REST_ID, "Sabine");
-    public static final Restaurant restaurant2 = new Restaurant(REST2_ID, "Aqua Shard");
-    public static final Restaurant restaurant3 = new Restaurant(REST_ID + 2, "Searcys at The Gherkin");
-    public static final Restaurant restaurant4 = new Restaurant(REST_ID + 3, "Tavolino");
-    public static final Restaurant restaurant5 = new Restaurant(REST_ID + 4, "Gillray’s Steakhouse");
+    public static final int RESTAURANT_ID = 1;
+    public static final int RESTAURANT2_ID = 2;
+    public static final int RESTAURANT_NOT_FOUND = 9999;
+    public static final Restaurant restaurant1 = new Restaurant(RESTAURANT_ID, "Sabine");
+    public static final Restaurant restaurant2 = new Restaurant(RESTAURANT2_ID, "Aqua Shard");
+    public static final Restaurant restaurant3 = new Restaurant(RESTAURANT_ID + 2, "Searcys at The Gherkin");
+    public static final Restaurant restaurant4 = new Restaurant(RESTAURANT_ID + 3, "Tavolino");
+    public static final Restaurant restaurant5 = new Restaurant(RESTAURANT_ID + 4, "Gillray’s Steakhouse");
 
     static {
         restaurant1.setMenu(menu1);
@@ -36,6 +36,6 @@ public class RestaurantTestData {
     }
 
     public static Restaurant getUpdated() {
-        return new Restaurant(REST_ID, "Update Restaurant");
+        return new Restaurant(RESTAURANT_ID, "Update Restaurant");
     }
 }

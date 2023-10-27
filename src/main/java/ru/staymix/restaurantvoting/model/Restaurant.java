@@ -1,6 +1,5 @@
 package ru.staymix.restaurantvoting.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -21,7 +20,6 @@ public class Restaurant extends NamedEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @OnDelete(action = OnDeleteAction.CASCADE) // https://stackoverflow.com/a/44988100/548473
     @OrderBy("dishDate DESC")
-    @JsonBackReference // https://stackoverflow.com/a/31319631/21671674
     private List<Dish> menu;
 
     public Restaurant(Integer id, String name) {
