@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Range;
 import ru.staymix.restaurantvoting.util.validation.NoHtml;
 
@@ -41,8 +43,8 @@ public class Dish extends NamedEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
-    @NotNull
     private Restaurant restaurant;
 
     public Dish(Integer id, String name, @NotNull Integer price, String description, @NotNull Integer calories, @NotNull LocalDate dishDate) {

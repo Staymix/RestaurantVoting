@@ -1,5 +1,6 @@
 package ru.staymix.restaurantvoting.web.dish;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ import static ru.staymix.restaurantvoting.util.validation.ValidationUtil.checkNe
 @Slf4j
 @AllArgsConstructor
 public class AdminDishController {
-    static final String REST_URL = AdminRestaurantController.REST_URL + "{restaurantId}/dishes";
+    static final String REST_URL = AdminRestaurantController.REST_URL + "/{restaurantId}/dishes";
     protected DishService service;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -32,7 +33,7 @@ public class AdminDishController {
         checkNew(dish);
         Dish created = service.create(dish, restaurantId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "{id}")
+                .path(REST_URL)
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
@@ -58,7 +59,7 @@ public class AdminDishController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody Dish dish, @PathVariable int id, @PathVariable int restaurantId) {
+    public void update(@Valid @RequestBody Dish dish, @PathVariable int id, @PathVariable int restaurantId) {
         log.info("update {} id={} from restaurant id={}", dish, id, restaurantId);
         assureIdConsistent(dish, id);
         service.update(dish, restaurantId);

@@ -35,7 +35,7 @@ public class DishService {
 
     public Dish get(int id, int restaurantId) {
         return checkNotFoundWithId(repository.findById(id)
-                .filter(dish -> dish.getRestaurant().id() == restaurantId)
+                .filter(dish -> dish.getRestaurant().getId() == restaurantId)
                 .orElse(null), id);
     }
 
