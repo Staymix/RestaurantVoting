@@ -12,6 +12,7 @@ import ru.staymix.restaurantvoting.model.Vote;
 import ru.staymix.restaurantvoting.service.RestaurantService;
 import ru.staymix.restaurantvoting.service.VoteService;
 import ru.staymix.restaurantvoting.to.VoteTo;
+import ru.staymix.restaurantvoting.util.VotesUtil;
 import ru.staymix.restaurantvoting.web.AuthUser;
 
 import java.net.URI;
@@ -29,7 +30,7 @@ import static ru.staymix.restaurantvoting.util.validation.ValidationUtil.checkNe
 @Slf4j
 @AllArgsConstructor
 public class VoteController {
-    static final String REST_URL = "api/user/votes";
+    static final String REST_URL = "/api/user/votes";
     protected VoteService voteService;
     protected RestaurantService restaurantService;
 
@@ -37,11 +38,12 @@ public class VoteController {
     public ResponseEntity<VoteTo> createWithLocation(@RequestBody VoteTo voteTo, @AuthenticationPrincipal AuthUser authUser) {
         log.info("create {} by user id={}", voteTo, authUser.id());
         checkNew(voteTo);
-        VoteTo create = createTo(new Vote(null, voteTo.getVoteDate(), LocalTime.now().truncatedTo(ChronoUnit.MINUTES), authUser.getUser(), restaurantService.get(voteTo.getRestaurantId())));
+        Vote create = voteService.create(new Vote(null, voteTo.getVoteDate(), LocalTime.now().truncatedTo(ChronoUnit.MINUTES),
+                authUser.getUser(), restaurantService.get(voteTo.getRestaurantId())), authUser.id());
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "{id}")
                 .buildAndExpand(create.getId()).toUri();
-        return ResponseEntity.created(uriOfNewResource).body(create);
+        return ResponseEntity.created(uriOfNewResource).body(VotesUtil.createTo(create));
     }
 
     @GetMapping("/{id}")
@@ -62,6 +64,7 @@ public class VoteController {
         log.info("update {} for user id={}", voteTo, authUser.id());
         assureIdConsistent(voteTo, id);
         Vote updated = voteService.get(id, authUser.id());
+        updated.setVoteTime(LocalTime.now().truncatedTo(ChronoUnit.MINUTES));
         updated.setRestaurant(restaurantService.get(voteTo.getRestaurantId()));
         voteService.update(updated, authUser.id());
     }

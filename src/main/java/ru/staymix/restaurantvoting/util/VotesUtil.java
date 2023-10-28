@@ -21,7 +21,7 @@ public class VotesUtil {
     }
 
     public static VoteTo createTo(Vote vote) {
-        return new VoteTo(vote.id(), vote.getRestaurant().id(), vote.getVoteDate());
+        return new VoteTo(vote.id(), vote.getRestaurant().getId(), vote.getVoteDate());
     }
 
     public static boolean isBeforeTimeLimit(Vote vote) {
