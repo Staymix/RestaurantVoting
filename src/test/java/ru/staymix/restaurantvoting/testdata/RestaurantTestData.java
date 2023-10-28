@@ -16,12 +16,15 @@ public class RestaurantTestData {
                     });
     public static final int RESTAURANT_ID = 1;
     public static final int RESTAURANT2_ID = 2;
+    public static final int RESTAURANT3_ID = 3;
+    public static final int RESTAURANT4_ID = 4;
+    public static final int RESTAURANT5_ID = 5;
     public static final int RESTAURANT_NOT_FOUND = 9999;
     public static final Restaurant restaurant1 = new Restaurant(RESTAURANT_ID, "Sabine");
     public static final Restaurant restaurant2 = new Restaurant(RESTAURANT2_ID, "Aqua Shard");
-    public static final Restaurant restaurant3 = new Restaurant(RESTAURANT_ID + 2, "Searcys at The Gherkin");
-    public static final Restaurant restaurant4 = new Restaurant(RESTAURANT_ID + 3, "Tavolino");
-    public static final Restaurant restaurant5 = new Restaurant(RESTAURANT_ID + 4, "Gillray’s Steakhouse");
+    public static final Restaurant restaurant3 = new Restaurant(RESTAURANT3_ID, "Searcys at The Gherkin");
+    public static final Restaurant restaurant4 = new Restaurant(RESTAURANT4_ID, "Tavolino");
+    public static final Restaurant restaurant5 = new Restaurant(RESTAURANT5_ID, "Gillray’s Steakhouse");
 
     static {
         restaurant1.setMenu(menu1);
