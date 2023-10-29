@@ -16,12 +16,12 @@ VALUES ('USER', 1),
        ('USER', 6),
        ('USER', 7);
 
-INSERT INTO RESTAURANT (name)
-VALUES ('Sabine'),
-       ('Aqua Shard'),
-       ('Searcys at The Gherkin'),
-       ('Tavolino'),
-       ('Gillray’s Steakhouse');
+INSERT INTO RESTAURANT (name, address)
+VALUES ('Sabine', 'St. Paul''s, 10 Godliman St, London, England, United Kingdom, 7'),
+       ('Aqua Shard', 'Level 31, The Shard, 31 St Thomas St, London SE1 9RY, United Kingdom'),
+       ('Searcys at The Gherkin', 'The Gherkin, 30 St Mary Axe, London EC3A 8BF, United Kingdom'),
+       ('Tavolino', '2 More London Pl, London SE1 2RR, United Kingdom'),
+       ('Gillray’s Steakhouse', 'County Hall, Westminster Bridge Rd, London SE1 7PB, United Kingdom');
 
 INSERT INTO DISH (name, price, description, calories, dish_date, restaurant_id)
 VALUES ('Gouda & Bacon Goughnuts', 15, 'Siracha & maple mayo, bacon dust', 1688, now() - 1, 1),

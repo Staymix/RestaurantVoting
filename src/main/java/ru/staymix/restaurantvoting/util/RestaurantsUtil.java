@@ -15,6 +15,16 @@ public class RestaurantsUtil {
     }
 
     public static RestaurantTo createTo(Restaurant restaurant) {
-        return new RestaurantTo(restaurant.id(), restaurant.getName());
+        return new RestaurantTo(restaurant.id(), restaurant.getName(), restaurant.getAddress());
+    }
+
+    public static Restaurant createNewFromTo(RestaurantTo restaurantTo) {
+        return new Restaurant(null, restaurantTo.getName(), restaurantTo.getAddress());
+    }
+
+    public static Restaurant updateFromTo(Restaurant restaurant, RestaurantTo restaurantTo) {
+        restaurant.setName(restaurantTo.getName());
+        restaurant.setAddress(restaurantTo.getAddress());
+        return restaurant;
     }
 }

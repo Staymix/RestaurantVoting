@@ -16,12 +16,6 @@ public class UserRestaurantController extends AbstractRestaurantController {
     static final String REST_URL = "/api/user/restaurants";
 
     @Override
-    @GetMapping("/{id}")
-    public RestaurantTo get(@PathVariable int id) {
-        return super.get(id);
-    }
-
-    @Override
     @GetMapping
     public List<RestaurantTo> getAll() {
         return super.getAll();

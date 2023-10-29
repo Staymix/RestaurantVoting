@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.staymix.restaurantvoting.model.Restaurant;
 import ru.staymix.restaurantvoting.service.RestaurantService;
 import ru.staymix.restaurantvoting.to.RestaurantTo;
+import ru.staymix.restaurantvoting.util.RestaurantsUtil;
 
 import java.util.List;
 
@@ -18,10 +19,10 @@ public abstract class AbstractRestaurantController {
     @Autowired
     protected RestaurantService service;
 
-    public Restaurant create(Restaurant restaurant) {
-        log.info("create {}", restaurant);
-        checkNew(restaurant);
-        return service.create(restaurant);
+    public Restaurant create(RestaurantTo restaurantTo) {
+        log.info("create {}", restaurantTo);
+        checkNew(restaurantTo);
+        return service.create(RestaurantsUtil.createNewFromTo(restaurantTo));
     }
 
     public void delete(int id) {
@@ -39,10 +40,10 @@ public abstract class AbstractRestaurantController {
         return getTos(service.getAll());
     }
 
-    public void update(Restaurant restaurant, int id) {
-        log.info("update {} with id={}", restaurant, id);
-        assureIdConsistent(restaurant, id);
-        service.update(restaurant);
+    public void update(RestaurantTo restaurantTo, int id) {
+        log.info("update {} with id={}", restaurantTo, id);
+        assureIdConsistent(restaurantTo, id);
+        service.update(restaurantTo);
     }
 
     public Restaurant getWithMenu(int id) {

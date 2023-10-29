@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import ru.staymix.restaurantvoting.model.Dish;
 import ru.staymix.restaurantvoting.model.Restaurant;
 import ru.staymix.restaurantvoting.repository.RestaurantRepository;
+import ru.staymix.restaurantvoting.to.RestaurantTo;
+import ru.staymix.restaurantvoting.util.RestaurantsUtil;
 
 import java.util.Comparator;
 import java.util.List;
@@ -37,9 +39,9 @@ public class RestaurantService {
         return repository.findAll(SORT_NAME);
     }
 
-    public void update(Restaurant restaurant) {
-        notNull(restaurant, "restaurant must not be null");
-        checkNotFoundWithId(repository.save(restaurant), restaurant.id());
+    public void update(RestaurantTo restaurantTo) {
+        Restaurant restaurant = get(restaurantTo.id());
+        repository.save(RestaurantsUtil.updateFromTo(restaurant, restaurantTo));
     }
 
     public Restaurant getWithMenu(int id) {

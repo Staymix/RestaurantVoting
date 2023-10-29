@@ -4,11 +4,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.staymix.restaurantvoting.error.NotFoundException;
 import ru.staymix.restaurantvoting.model.Restaurant;
+import ru.staymix.restaurantvoting.to.RestaurantTo;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.staymix.restaurantvoting.testdata.RestaurantTestData.*;
+import static ru.staymix.restaurantvoting.util.RestaurantsUtil.createTo;
 
 class RestaurantServiceTest extends AbstractServiceTest {
 
@@ -55,9 +57,9 @@ class RestaurantServiceTest extends AbstractServiceTest {
 
     @Test
     void update() {
-        Restaurant updated = getUpdated();
+        RestaurantTo updated = createTo(getUpdated());
         service.update(updated);
-        RESTAURANT_MATCHER.assertMatch(updated, service.get(RESTAURANT_ID));
+        RESTAURANT_TO_MATCHER.assertMatch(updated, createTo(service.get(RESTAURANT_ID)));
     }
 
     @Test

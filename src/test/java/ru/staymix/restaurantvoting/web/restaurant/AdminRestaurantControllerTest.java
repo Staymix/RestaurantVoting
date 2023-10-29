@@ -9,7 +9,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.staymix.restaurantvoting.error.NotFoundException;
 import ru.staymix.restaurantvoting.model.Restaurant;
 import ru.staymix.restaurantvoting.service.RestaurantService;
+import ru.staymix.restaurantvoting.to.RestaurantTo;
 import ru.staymix.restaurantvoting.util.JsonUtil;
+import ru.staymix.restaurantvoting.util.RestaurantsUtil;
 import ru.staymix.restaurantvoting.web.AbstractControllerTest;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -47,7 +49,7 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void createInvalid() throws Exception {
-        Restaurant newRestaurant = new Restaurant(null, null);
+        Restaurant newRestaurant = new Restaurant(null, "", "");
         perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newRestaurant)))
@@ -58,7 +60,7 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void createDuplicate() throws Exception {
-        Restaurant newRestaurant = new Restaurant(null, restaurant2.getName());
+        Restaurant newRestaurant = new Restaurant(null, restaurant2.getName(), "new address");
         perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newRestaurant)))
@@ -127,43 +129,46 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void update() throws Exception {
-        Restaurant updated = getUpdated();
+        RestaurantTo updatedTo = new RestaurantTo(null, "update", "update address");
         perform(MockMvcRequestBuilders.put(REST_URL_SLASH + RESTAURANT_ID)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(updated)))
+                .content(JsonUtil.writeValue(updatedTo)))
+                .andDo(print())
                 .andExpect(status().isNoContent());
 
-        RESTAURANT_MATCHER.assertMatch(service.get(RESTAURANT_ID), updated);
+        RESTAURANT_MATCHER.assertMatch(service.get(RESTAURANT_ID), RestaurantsUtil.updateFromTo(new Restaurant(restaurant1), updatedTo));
     }
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void updateInvalid() throws Exception {
-        Restaurant invalid = new Restaurant(restaurant1.id(), "");
+        RestaurantTo updatedTo = new RestaurantTo(null, "", "");
         perform(MockMvcRequestBuilders.put(REST_URL_SLASH + RESTAURANT_ID)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(invalid)))
+                .content(JsonUtil.writeValue(updatedTo)))
+                .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
     }
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void updateHtmlUnsafe() throws Exception {
-        Restaurant invalid = new Restaurant(restaurant1.id(), restaurant1.getName());
-        invalid.setName("<script>alert(123)</script>");
+        RestaurantTo updatedTo = new RestaurantTo(null, "<script>alert(123)</script>", "<script>alert(123)</script>");
         perform(MockMvcRequestBuilders.put(REST_URL_SLASH + RESTAURANT_ID)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(invalid)))
+                .content(JsonUtil.writeValue(updatedTo)))
+                .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
     }
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void updateDuplicate() throws Exception {
-        Restaurant invalid = new Restaurant(RESTAURANT_ID, restaurant2.getName());
+        RestaurantTo updatedTo = new RestaurantTo(null, restaurant2.getName(), "new address");
         perform(MockMvcRequestBuilders.put(REST_URL_SLASH + RESTAURANT_ID)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(invalid)))
+                .content(JsonUtil.writeValue(updatedTo)))
+                .andDo(print())
                 .andExpect(status().isNoContent());
 
         perform(MockMvcRequestBuilders.get(REST_URL))
