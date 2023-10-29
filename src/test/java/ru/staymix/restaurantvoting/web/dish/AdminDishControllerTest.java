@@ -61,7 +61,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(ADMIN_MAIL)
-    void createDuplicate() throws Exception {
+    void createDuplicateToday() throws Exception {
         Dish invalid = getNew();
         invalid.setName(dish2.getName());
         perform(MockMvcRequestBuilders.post(REST_URL_SLASH + RESTAURANT_ID + "/dishes")
@@ -170,7 +170,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(ADMIN_MAIL)
-    void updateDuplicate() throws Exception {
+    void updateDuplicateToday() throws Exception {
         Dish invalid = getUpdated();
         invalid.setName(dish2.getName());
         perform(MockMvcRequestBuilders.put(REST_URL_SLASH + RESTAURANT_ID + REST_DISH_URL_SLASH + DISH_ID)

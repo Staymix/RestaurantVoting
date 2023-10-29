@@ -14,7 +14,7 @@ import ru.staymix.restaurantvoting.util.validation.NoHtml;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "dish", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "name"}, name = "dish_unique_restaurant_name_idx")})
+@Table(name = "dish", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "name", "dish_date"}, name = "dish_unique_restaurant_name_date_idx")})
 @Getter
 @Setter
 @ToString

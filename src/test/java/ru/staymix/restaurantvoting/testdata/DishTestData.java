@@ -32,10 +32,10 @@ public class DishTestData {
     public static final List<Dish> menu5 = List.of(dish13, dish14, dish15);
 
     public static Dish getNew() {
-        return new Dish(null, "new", 10, "new description", 100, LocalDate.now());
+        return new Dish(null, "new", 10, "new description", 100, LocalDate.now().minusDays(1));
     }
 
     public static Dish getUpdated() {
-        return new Dish(DISH_ID, "update", 1, "updated", 10, LocalDate.now());
+        return new Dish(DISH_ID, "update", 1, "updated", 10, LocalDate.now().minusDays(1));
     }
 }
