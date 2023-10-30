@@ -8,10 +8,10 @@ import ru.staymix.restaurantvoting.error.NotFoundException;
 import ru.staymix.restaurantvoting.model.Vote;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static ru.staymix.restaurantvoting.testdata.RestaurantTestData.RESTAURANT2_ID;
 import static ru.staymix.restaurantvoting.testdata.RestaurantTestData.restaurant2;
 import static ru.staymix.restaurantvoting.testdata.UserTestData.*;
 import static ru.staymix.restaurantvoting.testdata.VoteTestData.getNew;
@@ -30,7 +30,7 @@ class VoteServiceTest extends AbstractServiceTest {
         Vote newVote = getNew();
         newVote.setId(id);
         VOTE_MATCHER.assertMatch(created, newVote);
-        VOTE_MATCHER.assertMatch(service.get(id, ADMIN_ID), newVote);
+        VOTE_MATCHER.assertMatch(service.getTodayByUser(ADMIN_ID), newVote);
     }
 
     @Test
@@ -39,14 +39,14 @@ class VoteServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    void get() {
-        Vote vote = service.get(VOTE_ID, USER_ID);
+    void getTodayByUser() {
+        Vote vote = service.getTodayByUser(USER_ID);
         VOTE_MATCHER.assertMatch(vote, vote1);
     }
 
     @Test
-    void getNotFound() {
-        assertThrows(NotFoundException.class, () -> service.get(VOTE_NOT_FOUND, USER_ID));
+    void getTodayByUserNotFound() {
+        assertThrows(NotFoundException.class, () -> service.getTodayByUser(USER_NOT_FOUND));
     }
 
     @Test
@@ -58,19 +58,19 @@ class VoteServiceTest extends AbstractServiceTest {
     @Test
     void update() {
         Vote updated = getUpdated();
-        service.update(updated, USER_ID);
-        VOTE_MATCHER.assertMatch(service.get(VOTE_ID, USER_ID), updated);
+        service.update(updated, USER_ID, RESTAURANT2_ID);
+        VOTE_MATCHER.assertMatch(service.getTodayByUser(USER_ID), updated);
     }
 
     @Test
     void updateAfterTimeLimit() {
-        Vote updated = new Vote(VOTE_ID, LocalDate.now(), LocalTime.of(11, 0), user, restaurant2);
-        assertThrows(IllegalRequestDataException.class, () -> service.update(updated, USER_ID));
+        Vote updated = new Vote(VOTE_ID, LocalDate.now(), TIME_AFTER_UPDATE_LIMIT, user, restaurant2);
+        assertThrows(IllegalRequestDataException.class, () -> service.update(updated, USER_ID, RESTAURANT2_ID));
     }
 
     @Test
     void updateHasNotToday() {
-        Vote updated = new Vote(VOTE_ID, LocalDate.now(), LocalTime.of(10, 0), admin, restaurant2);
-        assertThrows(IllegalRequestDataException.class, () -> service.update(updated, ADMIN_ID));
+        Vote updated = new Vote(VOTE_ID, LocalDate.now(), TIME_BEFORE_TODAY_VOTING, admin, restaurant2);
+        assertThrows(IllegalRequestDataException.class, () -> service.update(updated, ADMIN_ID, RESTAURANT2_ID));
     }
 }

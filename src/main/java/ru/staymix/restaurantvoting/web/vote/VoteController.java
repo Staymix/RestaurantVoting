@@ -16,14 +16,12 @@ import ru.staymix.restaurantvoting.util.VotesUtil;
 import ru.staymix.restaurantvoting.web.AuthUser;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-import static ru.staymix.restaurantvoting.util.VotesUtil.createTo;
 import static ru.staymix.restaurantvoting.util.VotesUtil.getTos;
-import static ru.staymix.restaurantvoting.util.validation.ValidationUtil.assureIdConsistent;
-import static ru.staymix.restaurantvoting.util.validation.ValidationUtil.checkNew;
 
 @RestController
 @RequestMapping(value = VoteController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -35,37 +33,28 @@ public class VoteController {
     protected RestaurantService restaurantService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<VoteTo> createWithLocation(@RequestBody VoteTo voteTo, @AuthenticationPrincipal AuthUser authUser) {
-        log.info("create {} by user id={}", voteTo, authUser.id());
-        checkNew(voteTo);
-        Vote create = voteService.create(new Vote(null, voteTo.getVoteDate(), LocalTime.now().truncatedTo(ChronoUnit.MINUTES),
-                authUser.getUser(), restaurantService.get(voteTo.getRestaurantId())), authUser.id());
+    public ResponseEntity<VoteTo> createWithLocation(@RequestParam int restaurantId, @AuthenticationPrincipal AuthUser authUser) {
+        log.info("create vote restaurant id={} by user id={}", restaurantId, authUser.id());
+        Vote create = voteService.create(new Vote(null, LocalDate.now(), LocalTime.now().truncatedTo(ChronoUnit.MINUTES),
+                authUser.getUser(), restaurantService.get(restaurantId)), authUser.id());
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "{id}")
                 .buildAndExpand(create.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(VotesUtil.createTo(create));
     }
 
-    @GetMapping("/{id}")
-    public VoteTo get(@PathVariable int id, @AuthenticationPrincipal AuthUser authUser) {
-        log.info("get vote id={} for user id={}", id, authUser.id());
-        return createTo(voteService.get(id, authUser.id()));
-    }
-
     @GetMapping()
     public List<VoteTo> getAll(@AuthenticationPrincipal AuthUser authUser) {
-        log.info("getAll for user id={}", authUser.id());
+        log.info("getAll by user id={}", authUser.id());
         return getTos(voteService.getAll(authUser.id()));
     }
 
-    @PutMapping(value = "/{id}")
+    @PutMapping()
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody VoteTo voteTo, @PathVariable int id, @AuthenticationPrincipal AuthUser authUser) {
-        log.info("update {} for user id={}", voteTo, authUser.id());
-        assureIdConsistent(voteTo, id);
-        Vote updated = voteService.get(id, authUser.id());
+    public void update(@RequestParam int restaurantId, @AuthenticationPrincipal AuthUser authUser) {
+        log.info("update vote restaurant id={} by user id={}", restaurantId, authUser.id());
+        Vote updated = voteService.getTodayByUser(authUser.id());
         updated.setVoteTime(LocalTime.now().truncatedTo(ChronoUnit.MINUTES));
-        updated.setRestaurant(restaurantService.get(voteTo.getRestaurantId()));
-        voteService.update(updated, authUser.id());
+        voteService.update(updated, authUser.id(), restaurantId);
     }
 }
