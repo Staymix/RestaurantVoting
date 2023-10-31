@@ -14,6 +14,7 @@ import ru.staymix.restaurantvoting.web.AbstractControllerTest;
 import ru.staymix.restaurantvoting.web.restaurant.AdminRestaurantController;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -124,11 +125,20 @@ class AdminDishControllerTest extends AbstractControllerTest {
     @WithUserDetails(ADMIN_MAIL)
     void getMenuFromDate() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_ID + "/dishes")
-                .param("date", LocalDate.now().minusDays(1).toString()))
+                .param("date", LocalDate.now().toString()))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(DISH_MATCHER.contentJson(menu1));
+    }
 
+    @Test
+    @WithUserDetails(ADMIN_MAIL)
+    void getMenuFromDateEmptyList() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_ID + "/dishes")
+                .param("date", LocalDate.now().minusDays(1).toString()))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(DISH_MATCHER.contentJson(List.of()));
     }
 
     @Test
