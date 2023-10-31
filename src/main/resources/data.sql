@@ -40,7 +40,7 @@ VALUES ('Gouda & Bacon Goughnuts', 15, 'Siracha & maple mayo, bacon dust', 1688,
        ('Tuscan Chicken', 18, '8oz Wagyu Patty, Romaine, Tomato, House Made Pickles, Brioche Bun', 856, now(), 4),
        ('Old School Sausage & Peppers', 17, 'Fennel Sausage, Caramelized Onions, Roasted Red Pepper, San Marzano Tomato Gravy, Toasted Baguette', 963, now(), 4),
 
-       ('For The Sea Food And Surf & Turf Lover', 45, 'Grilled Lobster Whole', 378, now() -5, 5),
+       ('For The Sea Food And Surf & Turf Lover', 45, 'Grilled Lobster Whole', 378, now(), 5),
        ('The Westminster’ Beef Flank Sandwich', 26, 'Iceberg, Horseradish Crème Fraiche, Piccalilli, Sour Dough', 737, now(), 5),
        ('Gillray’s Wagyu Steak Burger', 28, 'Brioche Bun, Smoked Cheddar, Bacon Jam, Pickle, Lettuce, Tomato', 847, now(), 5);
 

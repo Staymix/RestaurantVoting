@@ -14,7 +14,7 @@ public class DishTestData {
     public static final Dish dish2 = new Dish(DISH_ID + 1, "Tostadas", 15, "BBQ jackfruit, guacamole, pico de gallo, crisp onion", 1680, LocalDate.now());
     public static final Dish dish3 = new Dish(DISH_ID + 2, "Chili and coriander beef short rib", 22, "Thai salad, coriander chermoula", 544, LocalDate.now());
     public static final Dish dish4 = new Dish(DISH_ID + 3, "Potato Gnocchi", 11, "Ceps purée, mushroom ragout, coffee dust", 1204, LocalDate.now());
-    public static final Dish dish5 = new Dish(DISH_ID + 4, "Black Angus Beef Fillet", 28, "BBQ jackfruit, guacamole, pico de gallo, crisp onion", 1680, LocalDate.now());
+    public static final Dish dish5 = new Dish(DISH_ID + 4, "Black Angus Beef Fillet", 28, "Hen of the woods, roasted Grelot onion, parsley, red wine jus", 850, LocalDate.now());
     public static final Dish dish6 = new Dish(DISH_ID + 5, "Pan-Seared Wild Halibut", 16, "Courgette, young basil, marinated squash blossom", 655, LocalDate.now());
     public static final Dish dish7 = new Dish(DISH_ID + 6, "Gressingham duck", 21, "Smoked duck breast, charred orange, radicchio leaves, pomegranate molasses", 700, LocalDate.now());
     public static final Dish dish8 = new Dish(DISH_ID + 7, "Vegetable broth", 9, "Roasted winter vegetables, pearl barley, wild nettle pesto, toasted sourdough", 652, LocalDate.now());
@@ -26,10 +26,10 @@ public class DishTestData {
     public static final Dish dish14 = new Dish(DISH_ID + 13, "The Westminster’ Beef Flank Sandwich", 26, "Iceberg, Horseradish Crème Fraiche, Piccalilli, Sour Dough", 737, LocalDate.now());
     public static final Dish dish15 = new Dish(DISH_ID + 14, "Gillray’s Wagyu Steak Burger", 28, "Brioche Bun, Smoked Cheddar, Bacon Jam, Pickle, Lettuce, Tomato", 847, LocalDate.now());
     public static final List<Dish> menu1 = List.of(dish3, dish1, dish2);
-    public static final List<Dish> menu2 = List.of(dish4, dish5, dish6);
-    public static final List<Dish> menu3 = List.of(dish7, dish8, dish9);
-    public static final List<Dish> menu4 = List.of(dish10, dish11, dish12);
-    public static final List<Dish> menu5 = List.of(dish13, dish14, dish15);
+    public static final List<Dish> menu2 = List.of(dish5, dish6, dish4);
+    public static final List<Dish> menu3 = List.of(dish7, dish9, dish8);
+    public static final List<Dish> menu4 = List.of(dish10, dish12, dish11);
+    public static final List<Dish> menu5 = List.of(dish13, dish15, dish14);
 
     public static Dish getNew() {
         return new Dish(null, "new", 10, "new description", 100, LocalDate.now());
