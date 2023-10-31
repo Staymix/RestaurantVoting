@@ -14,6 +14,8 @@ import ru.staymix.restaurantvoting.util.JsonUtil;
 import ru.staymix.restaurantvoting.util.RestaurantsUtil;
 import ru.staymix.restaurantvoting.web.AbstractControllerTest;
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -179,9 +181,10 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void getWithMenu() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_ID + "/menu"))
-                .andExpect(status().isOk())
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_ID + "/menu")
+                .param("date", LocalDate.now().toString()))
                 .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(RESTAURANT_WITH_MENU_MATCHER.contentJson(restaurant1));
     }
@@ -189,7 +192,8 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void getWithMenuNotFound() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_NOT_FOUND + "/menu"))
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_ID + "/menu")
+                .param("date", LocalDate.now().minusDays(1).toString()))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }

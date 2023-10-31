@@ -10,6 +10,7 @@ import ru.staymix.restaurantvoting.model.Restaurant;
 import ru.staymix.restaurantvoting.to.RestaurantTo;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -52,7 +53,7 @@ public class AdminRestaurantController extends AbstractRestaurantController {
 
     @Override
     @GetMapping("/{id}/menu")
-    public Restaurant getWithMenu(@PathVariable int id) {
-        return super.getWithMenu(id);
+    public Restaurant getWithMenu(@PathVariable int id, @RequestParam LocalDate date) {
+        return super.getWithMenu(id, date);
     }
 }

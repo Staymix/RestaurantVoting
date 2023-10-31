@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.staymix.restaurantvoting.model.Restaurant;
 import ru.staymix.restaurantvoting.to.RestaurantTo;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -21,9 +22,8 @@ public class UserRestaurantController extends AbstractRestaurantController {
         return super.getAll();
     }
 
-    @Override
     @GetMapping("/{id}/menu")
     public Restaurant getWithMenu(@PathVariable int id) {
-        return super.getWithMenu(id);
+        return super.getWithMenu(id, LocalDate.now());
     }
 }

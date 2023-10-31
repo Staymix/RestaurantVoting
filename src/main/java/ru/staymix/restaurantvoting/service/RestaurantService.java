@@ -3,17 +3,16 @@ package ru.staymix.restaurantvoting.service;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import ru.staymix.restaurantvoting.model.Dish;
+import ru.staymix.restaurantvoting.error.NotFoundException;
 import ru.staymix.restaurantvoting.model.Restaurant;
 import ru.staymix.restaurantvoting.repository.RestaurantRepository;
 import ru.staymix.restaurantvoting.to.RestaurantTo;
 import ru.staymix.restaurantvoting.util.RestaurantsUtil;
 
-import java.util.Comparator;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.springframework.util.Assert.notNull;
-import static ru.staymix.restaurantvoting.util.validation.ValidationUtil.checkNotFoundWithId;
 
 @Service
 @AllArgsConstructor
@@ -44,16 +43,11 @@ public class RestaurantService {
         repository.save(RestaurantsUtil.updateFromTo(restaurant, restaurantTo));
     }
 
-    public Restaurant getWithMenu(int id) {
-        Restaurant restaurant = repository.getWithMenu(id);
-        checkNotFoundWithId(restaurant, id);
-        restaurant.setMenu(sortMenu(restaurant.getMenu()));
+    public Restaurant getWithMenu(int id, LocalDate date) {
+        Restaurant restaurant = repository.getWithMenu(id, date);
+        if (restaurant == null) {
+            throw new NotFoundException("Menu is not found for restaurant id = " + id + " on the date " + date + ".");
+        }
         return restaurant;
-    }
-
-    private List<Dish> sortMenu(List<Dish> menu) {
-        return menu.stream()
-                .sorted(Comparator.comparing(Dish::getName))
-                .toList();
     }
 }

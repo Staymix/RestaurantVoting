@@ -6,6 +6,7 @@ import ru.staymix.restaurantvoting.error.NotFoundException;
 import ru.staymix.restaurantvoting.model.Restaurant;
 import ru.staymix.restaurantvoting.to.RestaurantTo;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -64,13 +65,13 @@ class RestaurantServiceTest extends AbstractServiceTest {
 
     @Test
     void getWithMenu() {
-        Restaurant actual = service.getWithMenu(RESTAURANT_ID);
+        Restaurant actual = service.getWithMenu(RESTAURANT_ID, LocalDate.now());
         RESTAURANT_WITH_MENU_MATCHER.assertMatch(actual, restaurant1);
     }
 
     @Test
     void getWithMenuNotFound() {
         assertThrows(NotFoundException.class,
-                () -> service.getWithMenu(RESTAURANT_NOT_FOUND));
+                () -> service.getWithMenu(RESTAURANT_ID, LocalDate.now().minusDays(1)));
     }
 }

@@ -7,6 +7,7 @@ import ru.staymix.restaurantvoting.service.RestaurantService;
 import ru.staymix.restaurantvoting.to.RestaurantTo;
 import ru.staymix.restaurantvoting.util.RestaurantsUtil;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static ru.staymix.restaurantvoting.util.RestaurantsUtil.createTo;
@@ -46,8 +47,8 @@ public abstract class AbstractRestaurantController {
         service.update(restaurantTo);
     }
 
-    public Restaurant getWithMenu(int id) {
-        log.info("getWithMenu {}", id);
-        return service.getWithMenu(id);
+    public Restaurant getWithMenu(int id, LocalDate date) {
+        log.info("getWithMenu id={} for date={}", id, date);
+        return service.getWithMenu(id, date);
     }
 }
