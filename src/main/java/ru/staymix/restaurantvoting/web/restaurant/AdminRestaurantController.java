@@ -45,6 +45,18 @@ public class AdminRestaurantController extends AbstractRestaurantController {
         return super.getAll();
     }
 
+    @Override
+    @GetMapping("/menu/today")
+    public List<Restaurant> getAllWithMenuToday() {
+        return super.getAllWithMenuToday();
+    }
+
+    @Override
+    @GetMapping("/menu/from-date")
+    public List<Restaurant> getAllWithMenuFromDate(@RequestParam LocalDate date) {
+        return super.getAllWithMenuFromDate(date);
+    }
+
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@Valid @RequestBody RestaurantTo restaurantTo, @PathVariable int id) {
@@ -52,7 +64,7 @@ public class AdminRestaurantController extends AbstractRestaurantController {
     }
 
     @Override
-    @GetMapping("/{id}/menu")
+    @GetMapping("/{id}/menu/from-date")
     public Restaurant getWithMenu(@PathVariable int id, @RequestParam LocalDate date) {
         return super.getWithMenu(id, date);
     }

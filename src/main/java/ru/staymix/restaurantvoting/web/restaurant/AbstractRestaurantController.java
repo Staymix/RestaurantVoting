@@ -41,6 +41,16 @@ public abstract class AbstractRestaurantController {
         return getTos(service.getAll());
     }
 
+    public List<Restaurant> getAllWithMenuToday() {
+        log.info("getAllWithMenuToday");
+        return service.getAllWithMenu(LocalDate.now());
+    }
+
+    public List<Restaurant> getAllWithMenuFromDate(LocalDate date) {
+        log.info("getAllWithMenuFromDate date {}", date);
+        return service.getAllWithMenu(date);
+    }
+
     public void update(RestaurantTo restaurantTo, int id) {
         log.info("update {} with id={}", restaurantTo, id);
         assureIdConsistent(restaurantTo, id);

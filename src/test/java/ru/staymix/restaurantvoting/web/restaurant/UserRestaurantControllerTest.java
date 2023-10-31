@@ -26,8 +26,8 @@ class UserRestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = USER_MAIL)
-    void getAll() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL))
+    void getAllWithMenuToday() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + "/menu/today"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(RESTAURANT_MATCHER.contentJson(restaurant2, restaurant5, restaurant1, restaurant3, restaurant4));
@@ -36,7 +36,7 @@ class UserRestaurantControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void getWithMenu() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_ID + "/menu"))
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_ID + "/menu/today"))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -46,7 +46,7 @@ class UserRestaurantControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void getWithMenuNotFound() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_NOT_FOUND + "/menu"))
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_NOT_FOUND + "/menu/today"))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }

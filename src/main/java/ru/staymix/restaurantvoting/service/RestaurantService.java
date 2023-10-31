@@ -38,6 +38,10 @@ public class RestaurantService {
         return repository.findAll(SORT_NAME);
     }
 
+    public List<Restaurant> getAllWithMenu(LocalDate date) {
+        return repository.getAllWithMenu(date);
+    }
+
     public void update(RestaurantTo restaurantTo) {
         Restaurant restaurant = get(restaurantTo.id());
         repository.save(RestaurantsUtil.updateFromTo(restaurant, restaurantTo));

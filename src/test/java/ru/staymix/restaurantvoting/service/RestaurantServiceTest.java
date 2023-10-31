@@ -57,6 +57,18 @@ class RestaurantServiceTest extends AbstractServiceTest {
     }
 
     @Test
+    void getAllWithMenuToday() {
+        List<Restaurant> restaurants = service.getAllWithMenu(LocalDate.now());
+        RESTAURANT_MATCHER.assertMatch(restaurants, restaurant2, restaurant5, restaurant1, restaurant3, restaurant4);
+    }
+
+    @Test
+    void getAllWithMenuEmptyList() {
+        List<Restaurant> restaurants = service.getAllWithMenu(LocalDate.now().minusDays(1));
+        RESTAURANT_MATCHER.assertMatch(restaurants, List.of());
+    }
+
+    @Test
     void update() {
         RestaurantTo updated = createTo(getUpdated());
         service.update(updated);

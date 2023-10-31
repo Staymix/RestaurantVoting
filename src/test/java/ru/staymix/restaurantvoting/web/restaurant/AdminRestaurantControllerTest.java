@@ -15,6 +15,7 @@ import ru.staymix.restaurantvoting.util.RestaurantsUtil;
 import ru.staymix.restaurantvoting.web.AbstractControllerTest;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -130,6 +131,38 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
+    void getAllWithMenuToday() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + "/menu/today"))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(RESTAURANT_MATCHER.contentJson(restaurant2, restaurant5, restaurant1, restaurant3, restaurant4));
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void getAllWithMenuFromDate() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + "/menu/from-date")
+                .param("date", LocalDate.now().toString()))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(RESTAURANT_MATCHER.contentJson(restaurant2, restaurant5, restaurant1, restaurant3, restaurant4));
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void getAllWithMenuFromDateEmptyList() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + "/menu/from-date")
+                .param("date", LocalDate.now().minusDays(1).toString()))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(RESTAURANT_MATCHER.contentJson(List.of()));
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
     void update() throws Exception {
         RestaurantTo updatedTo = new RestaurantTo(null, "update", "update address");
         perform(MockMvcRequestBuilders.put(REST_URL_SLASH + RESTAURANT_ID)
@@ -181,7 +214,7 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void getWithMenu() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_ID + "/menu")
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_ID + "/menu/from-date")
                 .param("date", LocalDate.now().toString()))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -192,7 +225,7 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void getWithMenuNotFound() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_ID + "/menu")
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_ID + "/menu/from-date")
                 .param("date", LocalDate.now().minusDays(1).toString()))
                 .andDo(print())
                 .andExpect(status().isNotFound());

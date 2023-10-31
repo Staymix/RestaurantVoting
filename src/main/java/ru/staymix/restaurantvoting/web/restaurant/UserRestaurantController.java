@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.staymix.restaurantvoting.model.Restaurant;
-import ru.staymix.restaurantvoting.to.RestaurantTo;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -16,14 +15,13 @@ import java.util.List;
 public class UserRestaurantController extends AbstractRestaurantController {
     static final String REST_URL = "/api/user/restaurants";
 
-    @Override
-    @GetMapping
-    public List<RestaurantTo> getAll() {
-        return super.getAll();
+    @GetMapping("/menu/today")
+    public List<Restaurant> getAllWithMenuToday() {
+        return super.getAllWithMenuToday();
     }
 
-    @GetMapping("/{id}/menu")
-    public Restaurant getWithMenu(@PathVariable int id) {
+    @GetMapping("/{id}/menu/today")
+    public Restaurant getWithMenuToday(@PathVariable int id) {
         return super.getWithMenu(id, LocalDate.now());
     }
 }
