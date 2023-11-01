@@ -1,8 +1,11 @@
 package ru.staymix.restaurantvoting.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.staymix.restaurantvoting.error.NotFoundException;
 import ru.staymix.restaurantvoting.model.Restaurant;
 import ru.staymix.restaurantvoting.repository.RestaurantRepository;
@@ -21,11 +24,13 @@ public class RestaurantService {
 
     private final RestaurantRepository repository;
 
+    @CacheEvict(value = {"restaurantsWithMenu", "restaurants"}, allEntries = true)
     public Restaurant create(Restaurant restaurant) {
         notNull(restaurant, "restaurant must not be null");
         return repository.save(restaurant);
     }
 
+    @CacheEvict(value = {"restaurantsWithMenu", "restaurants"}, allEntries = true)
     public void delete(int id) {
         repository.deleteExisted(id);
     }
@@ -34,20 +39,24 @@ public class RestaurantService {
         return repository.getExisted(id);
     }
 
+    @Cacheable(value = "restaurants")
     public List<Restaurant> getAll() {
         return repository.findAll(SORT_NAME);
     }
 
-    public List<Restaurant> getAllWithMenu(LocalDate date) {
+    @Cacheable(value = "restaurantsWithMenu", key = "#date")
+    public List<Restaurant> getAllWithMenuByDate(LocalDate date) {
         return repository.getAllWithMenu(date);
     }
 
+    @CacheEvict(value = {"restaurantsWithMenu", "restaurants"}, allEntries = true)
+    @Transactional
     public void update(RestaurantTo restaurantTo) {
         Restaurant restaurant = get(restaurantTo.id());
         repository.save(RestaurantsUtil.updateFromTo(restaurant, restaurantTo));
     }
 
-    public Restaurant getWithMenu(int id, LocalDate date) {
+    public Restaurant getWithMenuByDate(int id, LocalDate date) {
         Restaurant restaurant = repository.getWithMenu(id, date);
         if (restaurant == null) {
             throw new NotFoundException("Menu is not found for restaurant id = " + id + " on the date " + date + ".");

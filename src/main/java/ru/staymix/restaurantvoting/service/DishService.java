@@ -1,6 +1,7 @@
 package ru.staymix.restaurantvoting.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.staymix.restaurantvoting.error.DataConflictException;
@@ -19,6 +20,7 @@ public class DishService {
     private final DishRepository repository;
     private final RestaurantService restaurantService;
 
+    @CacheEvict(value = "restaurantsWithMenu", allEntries = true)
     @Transactional
     public Dish create(Dish dish, int restaurantId) {
         notNull(dish, "dish must not be null");
@@ -29,6 +31,7 @@ public class DishService {
         return repository.save(dish);
     }
 
+    @CacheEvict(value = "restaurantsWithMenu", allEntries = true)
     public void delete(int id, int restaurantId) {
         checkNotFoundWithId(repository.delete(id, restaurantId) != 0, id);
     }
@@ -43,6 +46,7 @@ public class DishService {
         return repository.getMenuFromDate(restaurantId, date);
     }
 
+    @CacheEvict(value = "restaurantsWithMenu", allEntries = true)
     @Transactional
     public void update(Dish dish, int restaurantId) {
         notNull(dish, "dish must not be null");
