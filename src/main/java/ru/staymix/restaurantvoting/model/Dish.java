@@ -1,6 +1,7 @@
 package ru.staymix.restaurantvoting.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -45,6 +46,7 @@ public class Dish extends NamedEntity {
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
+    @Schema(hidden = true)
     private Restaurant restaurant;
 
     public Dish(Integer id, String name, @NotNull Integer price, String description, @NotNull Integer calories, @NotNull LocalDate dishDate) {

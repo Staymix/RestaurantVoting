@@ -18,7 +18,6 @@ import static ru.staymix.restaurantvoting.util.validation.ValidationUtil.checkNe
 
 @RestController
 @RequestMapping(value = AdminUserController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-// TODO: cache only most requested, seldom changed data!
 public class AdminUserController extends AbstractUserController {
 
     static final String REST_URL = "/api/admin/users";

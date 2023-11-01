@@ -43,12 +43,12 @@ public abstract class AbstractRestaurantController {
 
     public List<Restaurant> getAllWithMenuToday() {
         log.info("getAllWithMenuToday");
-        return service.getAllWithMenu(LocalDate.now());
+        return service.getAllWithMenuByDate(LocalDate.now());
     }
 
     public List<Restaurant> getAllWithMenuFromDate(LocalDate date) {
         log.info("getAllWithMenuFromDate date {}", date);
-        return service.getAllWithMenu(date);
+        return service.getAllWithMenuByDate(date);
     }
 
     public void update(RestaurantTo restaurantTo, int id) {
@@ -57,8 +57,8 @@ public abstract class AbstractRestaurantController {
         service.update(restaurantTo);
     }
 
-    public Restaurant getWithMenu(int id, LocalDate date) {
+    public Restaurant getWithMenuByDate(int id, LocalDate date) {
         log.info("getWithMenu id={} for date={}", id, date);
-        return service.getWithMenu(id, date);
+        return service.getWithMenuByDate(id, date);
     }
 }

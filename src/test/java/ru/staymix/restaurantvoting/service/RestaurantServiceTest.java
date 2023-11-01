@@ -58,13 +58,13 @@ class RestaurantServiceTest extends AbstractServiceTest {
 
     @Test
     void getAllWithMenuToday() {
-        List<Restaurant> restaurants = service.getAllWithMenu(LocalDate.now());
+        List<Restaurant> restaurants = service.getAllWithMenuByDate(LocalDate.now());
         RESTAURANT_MATCHER.assertMatch(restaurants, restaurant2, restaurant5, restaurant1, restaurant3, restaurant4);
     }
 
     @Test
-    void getAllWithMenuEmptyList() {
-        List<Restaurant> restaurants = service.getAllWithMenu(LocalDate.now().minusDays(1));
+    void getAllWithMenuByDateEmptyList() {
+        List<Restaurant> restaurants = service.getAllWithMenuByDate(LocalDate.now().minusDays(1));
         RESTAURANT_MATCHER.assertMatch(restaurants, List.of());
     }
 
@@ -76,14 +76,14 @@ class RestaurantServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    void getWithMenu() {
-        Restaurant actual = service.getWithMenu(RESTAURANT_ID, LocalDate.now());
+    void getWithMenuByDate() {
+        Restaurant actual = service.getWithMenuByDate(RESTAURANT_ID, LocalDate.now());
         RESTAURANT_WITH_MENU_MATCHER.assertMatch(actual, restaurant1);
     }
 
     @Test
-    void getWithMenuNotFound() {
+    void getWithMenuByDateNotFound() {
         assertThrows(NotFoundException.class,
-                () -> service.getWithMenu(RESTAURANT_ID, LocalDate.now().minusDays(1)));
+                () -> service.getWithMenuByDate(RESTAURANT_ID, LocalDate.now().minusDays(1)));
     }
 }

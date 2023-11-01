@@ -27,8 +27,8 @@ import static ru.staymix.restaurantvoting.testdata.UserTestData.USER_MAIL;
 
 class AdminDishControllerTest extends AbstractControllerTest {
 
-    private static final String REST_URL_SLASH = AdminRestaurantController.REST_URL + '/';
-    private static final String REST_DISH_URL_SLASH = "/dishes/";
+    private static final String REST_DISH_URL_BASE = AdminRestaurantController.REST_URL + "/{restaurantId}/dishes";
+    private static final String REST_DISH_URL_BASE_SLASH = AdminRestaurantController.REST_URL + "/{restaurantId}/dishes/{id}";
 
     @Autowired
     private DishService service;
@@ -37,7 +37,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
     @WithUserDetails(ADMIN_MAIL)
     void createWithLocation() throws Exception {
         Dish newDish = getNew();
-        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL_SLASH + RESTAURANT_ID + "/dishes")
+        ResultActions action = perform(MockMvcRequestBuilders.post(REST_DISH_URL_BASE, RESTAURANT_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newDish)))
                 .andExpect(status().isCreated());
@@ -54,7 +54,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
     void createInvalid() throws Exception {
         Dish invalid = getNew();
         invalid.setName(null);
-        perform(MockMvcRequestBuilders.post(REST_URL_SLASH + RESTAURANT_ID + "/dishes")
+        perform(MockMvcRequestBuilders.post(REST_DISH_URL_BASE, RESTAURANT_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(invalid)))
                 .andExpect(status().isUnprocessableEntity());
@@ -65,7 +65,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
     void createDuplicateToday() throws Exception {
         Dish invalid = getNew();
         invalid.setName(dish2.getName());
-        perform(MockMvcRequestBuilders.post(REST_URL_SLASH + RESTAURANT_ID + "/dishes")
+        perform(MockMvcRequestBuilders.post(REST_DISH_URL_BASE, RESTAURANT_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(invalid)))
                 .andExpect(status().isConflict());
@@ -74,7 +74,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(ADMIN_MAIL)
     void delete() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + RESTAURANT_ID + REST_DISH_URL_SLASH + DISH_ID))
+        perform(MockMvcRequestBuilders.delete(REST_DISH_URL_BASE_SLASH, RESTAURANT_ID, DISH_ID))
                 .andDo(print())
                 .andExpect(status().isNoContent());
         assertThrows(NotFoundException.class, () -> service.get(DISH_ID, RESTAURANT_ID));
@@ -83,7 +83,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(ADMIN_MAIL)
     void deleteNotFound() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + DISH_NOT_FOUND))
+        perform(MockMvcRequestBuilders.delete(REST_DISH_URL_BASE_SLASH, RESTAURANT_ID, DISH_NOT_FOUND))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
@@ -91,14 +91,14 @@ class AdminDishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(USER_MAIL)
     void deleteForbidden() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + DISH_NOT_FOUND))
+        perform(MockMvcRequestBuilders.delete(REST_DISH_URL_BASE_SLASH, RESTAURANT_ID, DISH_ID))
                 .andExpect(status().isForbidden());
     }
 
     @Test
     @WithUserDetails(ADMIN_MAIL)
     void get() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_ID + REST_DISH_URL_SLASH + DISH_ID))
+        perform(MockMvcRequestBuilders.get(REST_DISH_URL_BASE_SLASH, RESTAURANT_ID, DISH_ID))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -108,7 +108,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(ADMIN_MAIL)
     void getNotFound() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_ID + REST_DISH_URL_SLASH + DISH_NOT_FOUND))
+        perform(MockMvcRequestBuilders.get(REST_DISH_URL_BASE_SLASH, RESTAURANT_ID, DISH_NOT_FOUND))
                 .andDo(print())
                 .andExpect(status().isNotFound());
 
@@ -116,7 +116,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
 
     @Test
     void getUnAuth() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_ID + REST_DISH_URL_SLASH))
+        perform(MockMvcRequestBuilders.get(REST_DISH_URL_BASE_SLASH, RESTAURANT_ID, DISH_ID))
                 .andDo(print())
                 .andExpect(status().isUnauthorized());
     }
@@ -124,7 +124,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(ADMIN_MAIL)
     void getMenuToday() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_ID + "/dishes"))
+        perform(MockMvcRequestBuilders.get(REST_DISH_URL_BASE, RESTAURANT_ID))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(DISH_MATCHER.contentJson(menu1));
@@ -133,7 +133,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(ADMIN_MAIL)
     void getMenuFromDate() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_ID + "/dishes")
+        perform(MockMvcRequestBuilders.get(REST_DISH_URL_BASE, RESTAURANT_ID)
                 .param("date", LocalDate.now().toString()))
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -143,7 +143,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(ADMIN_MAIL)
     void getMenuFromDateEmptyList() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_ID + "/dishes/from-date")
+        perform(MockMvcRequestBuilders.get(REST_DISH_URL_BASE + "/from-date", RESTAURANT_ID)
                 .param("date", LocalDate.now().minusDays(1).toString()))
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -154,7 +154,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
     @WithUserDetails(ADMIN_MAIL)
     void update() throws Exception {
         Dish updated = getUpdated();
-        perform(MockMvcRequestBuilders.put(REST_URL_SLASH + RESTAURANT_ID + REST_DISH_URL_SLASH + DISH_ID)
+        perform(MockMvcRequestBuilders.put(REST_DISH_URL_BASE_SLASH, RESTAURANT_ID, DISH_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated)))
                 .andDo(print())
@@ -168,7 +168,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
     void updateInvalid() throws Exception {
         Dish invalid = getUpdated();
         invalid.setName("");
-        perform(MockMvcRequestBuilders.put(REST_URL_SLASH + RESTAURANT_ID + REST_DISH_URL_SLASH + DISH_ID)
+        perform(MockMvcRequestBuilders.put(REST_DISH_URL_BASE_SLASH, RESTAURANT_ID, DISH_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(invalid)))
                 .andDo(print())
@@ -180,7 +180,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
     void updateHtmlUnsafe() throws Exception {
         Dish invalid = getUpdated();
         invalid.setName("<script>alert(123)</script>");
-        perform(MockMvcRequestBuilders.put(REST_URL_SLASH + RESTAURANT_ID + REST_DISH_URL_SLASH + DISH_ID)
+        perform(MockMvcRequestBuilders.put(REST_DISH_URL_BASE_SLASH, RESTAURANT_ID, DISH_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(invalid)))
                 .andDo(print())
@@ -192,13 +192,13 @@ class AdminDishControllerTest extends AbstractControllerTest {
     void updateDuplicateToday() throws Exception {
         Dish invalid = getUpdated();
         invalid.setName(dish2.getName());
-        perform(MockMvcRequestBuilders.put(REST_URL_SLASH + RESTAURANT_ID + REST_DISH_URL_SLASH + DISH_ID)
+        perform(MockMvcRequestBuilders.put(REST_DISH_URL_BASE_SLASH, RESTAURANT_ID, DISH_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(invalid)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_ID + "/dishes")
+        perform(MockMvcRequestBuilders.get(REST_DISH_URL_BASE, RESTAURANT_ID)
                 .param("date", LocalDate.now().minusDays(1).toString()))
                 .andExpect(status().isConflict())
                 .andDo(print());

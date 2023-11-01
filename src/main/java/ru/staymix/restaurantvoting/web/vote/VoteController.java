@@ -7,7 +7,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.staymix.restaurantvoting.model.Vote;
 import ru.staymix.restaurantvoting.service.RestaurantService;
 import ru.staymix.restaurantvoting.service.VoteService;
@@ -15,7 +14,6 @@ import ru.staymix.restaurantvoting.to.VoteTo;
 import ru.staymix.restaurantvoting.util.VotesUtil;
 import ru.staymix.restaurantvoting.web.AuthUser;
 
-import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
@@ -32,15 +30,12 @@ public class VoteController {
     protected VoteService voteService;
     protected RestaurantService restaurantService;
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<VoteTo> createWithLocation(@RequestParam int restaurantId, @AuthenticationPrincipal AuthUser authUser) {
+    @PostMapping()
+    public ResponseEntity<VoteTo> create(@RequestParam int restaurantId, @AuthenticationPrincipal AuthUser authUser) {
         log.info("create vote restaurant id={} by user id={}", restaurantId, authUser.id());
         Vote create = voteService.create(new Vote(null, LocalDate.now(), LocalTime.now().truncatedTo(ChronoUnit.MINUTES),
                 authUser.getUser(), restaurantService.get(restaurantId)), authUser.id());
-        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "{id}")
-                .buildAndExpand(create.getId()).toUri();
-        return ResponseEntity.created(uriOfNewResource).body(VotesUtil.createTo(create));
+        return new ResponseEntity<>(VotesUtil.createTo(create), HttpStatus.CREATED);
     }
 
     @GetMapping()

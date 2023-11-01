@@ -22,7 +22,6 @@ import static ru.staymix.restaurantvoting.util.validation.ValidationUtil.checkNe
 @RestController
 @RequestMapping(value = ProfileController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
-// TODO: cache only most requested data!
 public class ProfileController extends AbstractUserController {
     static final String REST_URL = "/api/profile";
 

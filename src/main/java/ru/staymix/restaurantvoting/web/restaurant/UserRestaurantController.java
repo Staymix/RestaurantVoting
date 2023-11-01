@@ -22,6 +22,6 @@ public class UserRestaurantController extends AbstractRestaurantController {
 
     @GetMapping("/{id}/menu/today")
     public Restaurant getWithMenuToday(@PathVariable int id) {
-        return super.getWithMenu(id, LocalDate.now());
+        return super.getWithMenuByDate(id, LocalDate.now());
     }
 }

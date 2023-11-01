@@ -33,8 +33,8 @@ public class AdminDishController {
         checkNew(dish);
         Dish created = service.create(dish, restaurantId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL)
-                .buildAndExpand(created.getId()).toUri();
+                .path(REST_URL + "/{id}")
+                .buildAndExpand(restaurantId, created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 

@@ -22,7 +22,8 @@ public class AdminRestaurantController extends AbstractRestaurantController {
     public ResponseEntity<Restaurant> createWithLocation(@Valid @RequestBody RestaurantTo restaurantTo) {
         Restaurant created = super.create(restaurantTo);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "/{id}").build().toUri();
+                .path(REST_URL + "/{id}").
+                buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
@@ -65,7 +66,7 @@ public class AdminRestaurantController extends AbstractRestaurantController {
 
     @Override
     @GetMapping("/{id}/menu/from-date")
-    public Restaurant getWithMenu(@PathVariable int id, @RequestParam LocalDate date) {
-        return super.getWithMenu(id, date);
+    public Restaurant getWithMenuByDate(@PathVariable int id, @RequestParam LocalDate date) {
+        return super.getWithMenuByDate(id, date);
     }
 }
