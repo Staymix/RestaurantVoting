@@ -1,7 +1,5 @@
 ## Graduation project "Restaurant Voting" [TopJava Course](https://javaops.ru/view/topjava)
 
-The source code is taken from the project [TopJava-2](https://javaops.ru/view/topjava)
-
 -------------------------------------------------------------
 [Technical requirement:](https://github.com/Staymix/topjava/blob/doc/graduation.md#technical-requirement)
 Design and implement a REST API using Hibernate/Spring/SpringMVC (Spring-Boot preferred!) without frontend.

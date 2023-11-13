@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Configuration;
                 title = "REST API documentation",
                 version = "1.0",
                 description = """
-                        The "Restaurant Voting" application - the graduation project solution for the <a href='https://javaops.ru/view/topjava'>TopJava course
+                        The "Restaurant Voting" application - the graduation project solution for the <a href='https://javaops.ru/view/topjava'>TopJava</a> course
                         <p><b>Test credentials:</b><br>
                         - user@yandex.ru / password<br>
                         - admin@gmail.com / admin<br>
