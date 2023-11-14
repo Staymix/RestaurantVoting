@@ -54,8 +54,8 @@ public class AdminRestaurantController extends AbstractRestaurantController {
 
     @Override
     @GetMapping("/menu/by-date")
-    public List<Restaurant> getAllWithMenuFromDate(@RequestParam LocalDate date) {
-        return super.getAllWithMenuFromDate(date);
+    public List<Restaurant> getAllWithMenuByDate(@RequestParam LocalDate date) {
+        return super.getAllWithMenuByDate(date);
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)

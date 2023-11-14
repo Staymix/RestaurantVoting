@@ -43,7 +43,7 @@ public class DishService {
                 .orElse(null), id);
     }
 
-    public List<Dish> getMenuFromDate(int restaurantId, LocalDate date) {
+    public List<Dish> getMenuByDate(int restaurantId, LocalDate date) {
         return repository.getMenuByDate(restaurantId, date);
     }
 

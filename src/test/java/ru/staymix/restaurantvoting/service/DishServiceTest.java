@@ -57,13 +57,13 @@ class DishServiceTest extends AbstractServiceTest {
 
     @Test
     void getMenuFromDate() {
-        List<Dish> menu = service.getMenuFromDate(RESTAURANT_ID, LocalDate.now());
+        List<Dish> menu = service.getMenuByDate(RESTAURANT_ID, LocalDate.now());
         DISH_MATCHER.assertMatch(menu, menu1);
     }
 
     @Test
     void getMenuFromDateEmptyList() {
-        List<Dish> menu = service.getMenuFromDate(RESTAURANT_ID, LocalDate.now().minusDays(1));
+        List<Dish> menu = service.getMenuByDate(RESTAURANT_ID, LocalDate.now().minusDays(1));
         DISH_MATCHER.assertMatch(menu, List.of());
     }
 

@@ -54,13 +54,13 @@ public class AdminDishController {
     @GetMapping
     public List<Dish> getMenuToday(@PathVariable int restaurantId) {
         log.info("getMenuToday in restaurant id={}", restaurantId);
-        return service.getMenuFromDate(restaurantId, LocalDate.now());
+        return service.getMenuByDate(restaurantId, LocalDate.now());
     }
 
     @GetMapping("/by-date")
-    public List<Dish> getMenuFromDate(@PathVariable int restaurantId, @RequestParam LocalDate date) {
+    public List<Dish> getMenuByDate(@PathVariable int restaurantId, @RequestParam LocalDate date) {
         log.info("getMenuFromDate in restaurant id={} from date {}", restaurantId, date);
-        return service.getMenuFromDate(restaurantId, date);
+        return service.getMenuByDate(restaurantId, date);
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)

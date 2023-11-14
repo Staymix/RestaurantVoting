@@ -46,7 +46,7 @@ public abstract class AbstractRestaurantController {
         return service.getAllWithMenuByDate(LocalDate.now());
     }
 
-    public List<Restaurant> getAllWithMenuFromDate(LocalDate date) {
+    public List<Restaurant> getAllWithMenuByDate(LocalDate date) {
         log.info("getAllWithMenuFromDate date {}", date);
         return service.getAllWithMenuByDate(date);
     }
