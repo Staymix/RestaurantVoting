@@ -132,7 +132,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(ADMIN_MAIL)
-    void getMenuFromDate() throws Exception {
+    void getMenuByDate() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_DISH_URL_BASE, RESTAURANT_ID)
                 .param("date", LocalDate.now().toString()))
                 .andExpect(status().isOk())
@@ -142,8 +142,8 @@ class AdminDishControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(ADMIN_MAIL)
-    void getMenuFromDateEmptyList() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_DISH_URL_BASE + "/from-date", RESTAURANT_ID)
+    void getMenuByDateEmptyList() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_DISH_URL_BASE + "/by-date", RESTAURANT_ID)
                 .param("date", LocalDate.now().minusDays(1).toString()))
                 .andExpect(status().isOk())
                 .andDo(print())

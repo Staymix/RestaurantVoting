@@ -29,7 +29,7 @@ import static ru.staymix.restaurantvoting.web.restaurant.AdminRestaurantControll
 class AdminRestaurantControllerTest extends AbstractControllerTest {
 
     private static final String REST_RESTAURANT_URL_BASE = REST_URL + "/{restaurantId}";
-    private static final String REST_MENU_FROM_DATE_URL = "/menu/from-date";
+    private static final String REST_MENU_BY_DATE_URL = "/menu/by-date";
     protected static final String REST_MENU_TODAY_URL = "/menu/today";
 
     @Autowired
@@ -143,8 +143,8 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
-    void getAllWithMenuFromDate() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + REST_MENU_FROM_DATE_URL)
+    void getAllWithMenuByDate() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + REST_MENU_BY_DATE_URL)
                 .param("date", LocalDate.now().toString()))
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -154,8 +154,8 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
-    void getAllWithMenuFromDateEmptyList() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + REST_MENU_FROM_DATE_URL)
+    void getAllWithMenuByDateEmptyList() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + REST_MENU_BY_DATE_URL)
                 .param("date", LocalDate.now().minusDays(1).toString()))
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -216,7 +216,7 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void getWithMenu() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_RESTAURANT_URL_BASE, RESTAURANT_ID + REST_MENU_FROM_DATE_URL)
+        perform(MockMvcRequestBuilders.get(REST_RESTAURANT_URL_BASE, RESTAURANT_ID + REST_MENU_BY_DATE_URL)
                 .param("date", LocalDate.now().toString()))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -227,7 +227,7 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void getWithMenuNotFound() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_RESTAURANT_URL_BASE + REST_MENU_FROM_DATE_URL, RESTAURANT_ID)
+        perform(MockMvcRequestBuilders.get(REST_RESTAURANT_URL_BASE + REST_MENU_BY_DATE_URL, RESTAURANT_ID)
                 .param("date", LocalDate.now().minusDays(1).toString()))
                 .andDo(print())
                 .andExpect(status().isNotFound());

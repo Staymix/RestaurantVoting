@@ -53,7 +53,7 @@ public class AdminRestaurantController extends AbstractRestaurantController {
     }
 
     @Override
-    @GetMapping("/menu/from-date")
+    @GetMapping("/menu/by-date")
     public List<Restaurant> getAllWithMenuFromDate(@RequestParam LocalDate date) {
         return super.getAllWithMenuFromDate(date);
     }
@@ -65,7 +65,7 @@ public class AdminRestaurantController extends AbstractRestaurantController {
     }
 
     @Override
-    @GetMapping("/{id}/menu/from-date")
+    @GetMapping("/{id}/menu/by-date")
     public Restaurant getWithMenuByDate(@PathVariable int id, @RequestParam LocalDate date) {
         return super.getWithMenuByDate(id, date);
     }

@@ -57,7 +57,7 @@ public class AdminDishController {
         return service.getMenuFromDate(restaurantId, LocalDate.now());
     }
 
-    @GetMapping("/from-date")
+    @GetMapping("/by-date")
     public List<Dish> getMenuFromDate(@PathVariable int restaurantId, @RequestParam LocalDate date) {
         log.info("getMenuFromDate in restaurant id={} from date {}", restaurantId, date);
         return service.getMenuFromDate(restaurantId, date);

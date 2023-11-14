@@ -7,6 +7,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import ru.staymix.restaurantvoting.error.NotFoundException;
+import ru.staymix.restaurantvoting.model.Restaurant;
 import ru.staymix.restaurantvoting.model.Vote;
 import ru.staymix.restaurantvoting.service.RestaurantService;
 import ru.staymix.restaurantvoting.service.VoteService;
@@ -33,8 +35,14 @@ public class VoteController {
     @PostMapping()
     public ResponseEntity<VoteTo> create(@RequestParam int restaurantId, @AuthenticationPrincipal AuthUser authUser) {
         log.info("create vote restaurant id={} by user id={}", restaurantId, authUser.id());
+        Restaurant restaurant;
+        try {
+            restaurant = restaurantService.get(restaurantId);
+        } catch (NotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+        }
         Vote create = voteService.create(new Vote(null, LocalDate.now(), LocalTime.now().truncatedTo(ChronoUnit.MINUTES),
-                authUser.getUser(), restaurantService.get(restaurantId)), authUser.id());
+                authUser.getUser(), restaurant), authUser.id());
         return new ResponseEntity<>(VotesUtil.createTo(create), HttpStatus.CREATED);
     }
 
