@@ -18,7 +18,6 @@ import java.time.LocalDate;
 @Table(name = "dish", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "dish_date", "name"}, name = "dish_unique_restaurant_name_date_idx")})
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Dish extends NamedEntity {
 
@@ -49,5 +48,16 @@ public class Dish extends NamedEntity {
         this.price = price;
         this.description = description;
         this.dishDate = dishDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Dish{" +
+                "price=" + price +
+                ", description='" + description + '\'' +
+                ", dishDate=" + dishDate +
+                ", name='" + name + '\'' +
+                ", id=" + id +
+                '}';
     }
 }

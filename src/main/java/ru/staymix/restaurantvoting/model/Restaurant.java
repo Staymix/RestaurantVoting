@@ -26,7 +26,6 @@ public class Restaurant extends NamedEntity {
     @NotBlank
     @Size(min = 10, max = 128)
     @NoHtml
-    @Pattern(regexp = "^[a-zA-Z0-9,'\\s]+$", message = "Invalid address format")
     @Schema(example = "123 Example St, City, Country")
     private String address;
 

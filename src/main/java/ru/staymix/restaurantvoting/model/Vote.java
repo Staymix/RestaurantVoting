@@ -14,7 +14,6 @@ import java.time.LocalTime;
 @Table(name = "vote", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "vote_date"}, name = "vote_unique_user_date_idx")})
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Vote extends BaseEntity {
 
@@ -26,7 +25,7 @@ public class Vote extends BaseEntity {
     @NotNull
     private LocalTime voteTime;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
@@ -46,5 +45,14 @@ public class Vote extends BaseEntity {
         this.voteTime = voteTime;
         this.user = user;
         this.restaurant = restaurant;
+    }
+
+    @Override
+    public String toString() {
+        return "Vote{" +
+                "voteDate=" + voteDate +
+                ", voteTime=" + voteTime +
+                ", id=" + id +
+                '}';
     }
 }
