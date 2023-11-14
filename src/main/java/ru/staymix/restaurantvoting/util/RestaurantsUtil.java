@@ -22,9 +22,7 @@ public class RestaurantsUtil {
         return new Restaurant(null, restaurantTo.getName(), restaurantTo.getAddress());
     }
 
-    public static Restaurant updateFromTo(Restaurant restaurant, RestaurantTo restaurantTo) {
-        restaurant.setName(restaurantTo.getName());
-        restaurant.setAddress(restaurantTo.getAddress());
-        return restaurant;
+    public static Restaurant createFromTo(RestaurantTo restaurantTo) {
+        return new Restaurant(restaurantTo.getId(), restaurantTo.getName(), restaurantTo.getAddress());
     }
 }

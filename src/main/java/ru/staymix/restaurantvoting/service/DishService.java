@@ -1,11 +1,12 @@
 package ru.staymix.restaurantvoting.service;
 
+import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.staymix.restaurantvoting.error.DataConflictException;
 import ru.staymix.restaurantvoting.model.Dish;
+import ru.staymix.restaurantvoting.model.Restaurant;
 import ru.staymix.restaurantvoting.repository.DishRepository;
 
 import java.time.LocalDate;
@@ -18,16 +19,16 @@ import static ru.staymix.restaurantvoting.util.validation.ValidationUtil.checkNo
 @AllArgsConstructor
 public class DishService {
     private final DishRepository repository;
-    private final RestaurantService restaurantService;
+    private final EntityManager em;
 
     @CacheEvict(value = "restaurantsWithMenu", allEntries = true)
     @Transactional
     public Dish create(Dish dish, int restaurantId) {
         notNull(dish, "dish must not be null");
         if (!dish.isNew()) {
-            throw new DataConflictException("dish already exists");
+            throw new IllegalArgumentException("dish should not have an ID");
         }
-        dish.setRestaurant(restaurantService.get(restaurantId));
+        dish.setRestaurant(em.getReference(Restaurant.class, restaurantId));
         return repository.save(dish);
     }
 
@@ -50,7 +51,7 @@ public class DishService {
     @Transactional
     public void update(Dish dish, int restaurantId) {
         notNull(dish, "dish must not be null");
-        dish.setRestaurant(restaurantService.get(restaurantId));
+        dish.setRestaurant(em.getReference(Restaurant.class, restaurantId));
         checkNotFoundWithId(repository.save(dish), dish.id());
     }
 }

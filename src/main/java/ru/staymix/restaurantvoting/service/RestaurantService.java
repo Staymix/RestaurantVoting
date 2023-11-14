@@ -5,7 +5,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.staymix.restaurantvoting.error.NotFoundException;
 import ru.staymix.restaurantvoting.model.Restaurant;
 import ru.staymix.restaurantvoting.repository.RestaurantRepository;
@@ -50,10 +49,8 @@ public class RestaurantService {
     }
 
     @CacheEvict(value = {"restaurantsWithMenu", "restaurants"}, allEntries = true)
-    @Transactional
     public void update(RestaurantTo restaurantTo) {
-        Restaurant restaurant = get(restaurantTo.id());
-        repository.save(RestaurantsUtil.updateFromTo(restaurant, restaurantTo));
+        repository.save(RestaurantsUtil.createFromTo(restaurantTo));
     }
 
     public Restaurant getWithMenuByDate(int id, LocalDate date) {
