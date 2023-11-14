@@ -17,8 +17,7 @@ import java.util.List;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.staymix.restaurantvoting.testdata.RestaurantTestData.RESTAURANT2_ID;
-import static ru.staymix.restaurantvoting.testdata.RestaurantTestData.RESTAURANT5_ID;
+import static ru.staymix.restaurantvoting.testdata.RestaurantTestData.*;
 import static ru.staymix.restaurantvoting.testdata.UserTestData.*;
 import static ru.staymix.restaurantvoting.testdata.VoteTestData.getUpdated;
 import static ru.staymix.restaurantvoting.testdata.VoteTestData.*;
@@ -56,6 +55,16 @@ class VoteControllerTest extends AbstractControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isConflict());
+    }
+
+    @Test
+    @WithUserDetails(ADMIN_MAIL)
+    void createNonExistentRestaurant() throws Exception {
+        perform(MockMvcRequestBuilders.post(REST_URL)
+                .param("restaurantId", String.valueOf(RESTAURANT_NOT_FOUND))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
     }
 
     @Test

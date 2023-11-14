@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.staymix.restaurantvoting.error.DataConflictException;
 import ru.staymix.restaurantvoting.error.IllegalRequestDataException;
+import ru.staymix.restaurantvoting.error.NotFoundException;
 import ru.staymix.restaurantvoting.model.Restaurant;
 import ru.staymix.restaurantvoting.model.Vote;
 import ru.staymix.restaurantvoting.repository.VoteRepository;
@@ -35,7 +36,11 @@ public class VoteService {
         if (hasVoteTodayByUser(userId, restaurantId)) {
             throw new DataConflictException("Vote already exists for today");
         }
-        return repository.save(new Vote(null, LocalDate.now(), LocalTime.now().truncatedTo(ChronoUnit.MINUTES), userService.get(userId), restaurantService.get(restaurantId)));
+        try {
+            return repository.save(new Vote(null, LocalDate.now(), LocalTime.now().truncatedTo(ChronoUnit.MINUTES), userService.get(userId), restaurantService.get(restaurantId)));
+        } catch (NotFoundException e) {
+            throw new IllegalRequestDataException("Restaurant with id = " + restaurantId + " does not exist");
+        }
     }
 
     public Vote getTodayByUser(int userId) {
@@ -50,7 +55,7 @@ public class VoteService {
     @CacheEvict(value = "votes", key = "#userId")
     @Transactional
     public void update(int userId, int restaurantId) {
-        Vote updated = ValidationUtil.checkNotFound(getTodayByUser(userId), "Vote for today is not found for the user id = " + userId);
+        Vote updated = ValidationUtil.checkNotFound(getTodayByUser(userId), "by user id = " + userId);
         updated.setVoteTime(LocalTime.now().truncatedTo(ChronoUnit.MINUTES));
         if (!isBeforeTimeLimit(updated) || !hasVoteTodayByUser(userId, restaurantId)) {
             throw new IllegalRequestDataException("Voting is over");

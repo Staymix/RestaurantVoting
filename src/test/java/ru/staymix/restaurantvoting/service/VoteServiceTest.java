@@ -3,12 +3,14 @@ package ru.staymix.restaurantvoting.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.staymix.restaurantvoting.error.DataConflictException;
+import ru.staymix.restaurantvoting.error.IllegalRequestDataException;
 import ru.staymix.restaurantvoting.model.Vote;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.staymix.restaurantvoting.testdata.RestaurantTestData.RESTAURANT5_ID;
+import static ru.staymix.restaurantvoting.testdata.RestaurantTestData.RESTAURANT_NOT_FOUND;
 import static ru.staymix.restaurantvoting.testdata.UserTestData.ADMIN_ID;
 import static ru.staymix.restaurantvoting.testdata.UserTestData.USER_ID;
 import static ru.staymix.restaurantvoting.testdata.VoteTestData.*;
@@ -31,6 +33,11 @@ class VoteServiceTest extends AbstractServiceTest {
     @Test
     void createDuplicate() {
         assertThrows(DataConflictException.class, () -> service.create(USER_ID, RESTAURANT5_ID));
+    }
+
+    @Test
+    void createNonExistentRestaurant() {
+        assertThrows(IllegalRequestDataException.class, () -> service.create(ADMIN_ID, RESTAURANT_NOT_FOUND));
     }
 
     @Test
