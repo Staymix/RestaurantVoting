@@ -18,6 +18,6 @@ public interface DishRepository extends BaseRepository<Dish> {
     @Query("DELETE FROM Dish d WHERE d.id=:id AND d.restaurant.id=:restaurantId")
     int delete(int id, int restaurantId);
 
-    @Query("SELECT d FROM Dish d WHERE d.restaurant.id =:restaurantId AND d.dishDate =:date ORDER BY d.name, d.price")
-    List<Dish> getMenuFromDate(int restaurantId, LocalDate date);
+    @Query("SELECT d FROM Dish d WHERE d.restaurant.id =:restaurantId AND d.dishDate =:date ORDER BY d.name")
+    List<Dish> getMenuByDate(int restaurantId, LocalDate date);
 }

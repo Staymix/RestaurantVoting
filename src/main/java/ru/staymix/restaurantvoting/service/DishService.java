@@ -43,7 +43,7 @@ public class DishService {
     }
 
     public List<Dish> getMenuFromDate(int restaurantId, LocalDate date) {
-        return repository.getMenuFromDate(restaurantId, date);
+        return repository.getMenuByDate(restaurantId, date);
     }
 
     @CacheEvict(value = "restaurantsWithMenu", allEntries = true)

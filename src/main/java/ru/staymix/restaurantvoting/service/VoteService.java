@@ -11,6 +11,7 @@ import ru.staymix.restaurantvoting.error.NotFoundException;
 import ru.staymix.restaurantvoting.model.Vote;
 import ru.staymix.restaurantvoting.repository.VoteRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,7 +34,7 @@ public class VoteService {
     }
 
     public Vote getTodayByUser(int userId) {
-        return repository.getTodayByUser(userId)
+        return repository.getByUserAndDate(userId, LocalDate.now())
                 .orElseThrow(() -> new NotFoundException("Vote for today is not found for the user id = " + userId));
     }
 
@@ -54,7 +55,7 @@ public class VoteService {
     }
 
     private boolean hasVoteTodayByUser(int userId, Integer restaurantId) {
-        Optional<Vote> optional = repository.getTodayByUser(userId);
+        Optional<Vote> optional = repository.getByUserAndDate(userId, LocalDate.now());
         if (optional.isPresent()) {
             if (restaurantId.equals(optional.get().getRestaurant().getId())) {
                 throw new DataConflictException("Vote for this restaurant id = " + restaurantId + " already exists");
