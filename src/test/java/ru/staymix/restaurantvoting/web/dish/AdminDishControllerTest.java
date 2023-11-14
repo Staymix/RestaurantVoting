@@ -22,6 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.staymix.restaurantvoting.testdata.DishTestData.*;
 import static ru.staymix.restaurantvoting.testdata.RestaurantTestData.RESTAURANT_ID;
+import static ru.staymix.restaurantvoting.testdata.RestaurantTestData.RESTAURANT_NOT_FOUND;
 import static ru.staymix.restaurantvoting.testdata.UserTestData.ADMIN_MAIL;
 import static ru.staymix.restaurantvoting.testdata.UserTestData.USER_MAIL;
 
@@ -148,6 +149,15 @@ class AdminDishControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(DISH_MATCHER.contentJson(List.of()));
+    }
+
+    @Test
+    @WithUserDetails(ADMIN_MAIL)
+    void getMenuByDateNotFoundRestaurant() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_DISH_URL_BASE + "/by-date", RESTAURANT_NOT_FOUND)
+                .param("date", LocalDate.now().minusDays(1).toString()))
+                .andExpect(status().isNotFound())
+                .andDo(print());
     }
 
     @Test

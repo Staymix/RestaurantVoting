@@ -11,6 +11,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.staymix.restaurantvoting.testdata.DishTestData.*;
 import static ru.staymix.restaurantvoting.testdata.RestaurantTestData.RESTAURANT2_ID;
+import static ru.staymix.restaurantvoting.testdata.RestaurantTestData.RESTAURANT_NOT_FOUND;
 import static ru.staymix.restaurantvoting.testdata.RestaurantTestData.RESTAURANT_ID;
 
 class DishServiceTest extends AbstractServiceTest {
@@ -65,6 +66,11 @@ class DishServiceTest extends AbstractServiceTest {
     void getMenuFromDateEmptyList() {
         List<Dish> menu = service.getMenuByDate(RESTAURANT_ID, LocalDate.now().minusDays(1));
         DISH_MATCHER.assertMatch(menu, List.of());
+    }
+
+    @Test
+    void getMenuFromDateNotFound() {
+        assertThrows(NotFoundException.class, () -> service.getMenuByDate(RESTAURANT_NOT_FOUND, LocalDate.now()));
     }
 
     @Test

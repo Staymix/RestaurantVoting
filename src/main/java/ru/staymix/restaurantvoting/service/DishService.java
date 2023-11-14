@@ -19,6 +19,7 @@ import static ru.staymix.restaurantvoting.util.validation.ValidationUtil.checkNo
 @AllArgsConstructor
 public class DishService {
     private final DishRepository repository;
+    private final RestaurantService restaurantService;
     private final EntityManager em;
 
     @CacheEvict(value = "restaurantsWithMenu", key = "#dish.dishDate")
@@ -44,6 +45,7 @@ public class DishService {
     }
 
     public List<Dish> getMenuByDate(int restaurantId, LocalDate date) {
+        restaurantService.get(restaurantId);
         return repository.getMenuByDate(restaurantId, date);
     }
 
