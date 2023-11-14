@@ -32,7 +32,7 @@ public class VoteController {
     protected VoteService voteService;
     protected RestaurantService restaurantService;
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<VoteTo> create(@RequestParam int restaurantId, @AuthenticationPrincipal AuthUser authUser) {
         log.info("create vote restaurant id={} by user id={}", restaurantId, authUser.id());
         Restaurant restaurant;
@@ -46,13 +46,13 @@ public class VoteController {
         return new ResponseEntity<>(VotesUtil.createTo(create), HttpStatus.CREATED);
     }
 
-    @GetMapping()
+    @GetMapping
     public List<VoteTo> getAll(@AuthenticationPrincipal AuthUser authUser) {
         log.info("getAll by user id={}", authUser.id());
         return getTos(voteService.getAll(authUser.id()));
     }
 
-    @PutMapping()
+    @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@RequestParam int restaurantId, @AuthenticationPrincipal AuthUser authUser) {
         log.info("update vote restaurant id={} by user id={}", restaurantId, authUser.id());

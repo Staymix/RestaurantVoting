@@ -15,7 +15,7 @@ import ru.staymix.restaurantvoting.util.validation.NoHtml;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "dish", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "name", "dish_date"}, name = "dish_unique_restaurant_name_date_idx")})
+@Table(name = "dish", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "dish_date", "name"}, name = "dish_unique_restaurant_name_date_idx")})
 @Getter
 @Setter
 @ToString
@@ -24,7 +24,7 @@ public class Dish extends NamedEntity {
 
     @Column(name = "price", nullable = false)
     @NotNull
-    @Range(min = 1, max = 100)
+    @Range(min = 1)
     private Integer price;
 
     @Column(name = "description", nullable = false)
@@ -32,11 +32,6 @@ public class Dish extends NamedEntity {
     @Size(min = 2, max = 128)
     @NoHtml
     private String description;
-
-    @Column(name = "calories", nullable = false)
-    @NotNull
-    @Range(min = 10, max = 5000)
-    private Integer calories;
 
     @Column(name = "dish_date")
     @NotNull
@@ -49,11 +44,10 @@ public class Dish extends NamedEntity {
     @Schema(hidden = true)
     private Restaurant restaurant;
 
-    public Dish(Integer id, String name, @NotNull Integer price, String description, @NotNull Integer calories, @NotNull LocalDate dishDate) {
+    public Dish(Integer id, String name, @NotNull Integer price, String description, @NotNull LocalDate dishDate) {
         super(id, name);
         this.price = price;
         this.description = description;
-        this.calories = calories;
         this.dishDate = dishDate;
     }
 }
