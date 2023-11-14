@@ -13,9 +13,9 @@ import java.time.LocalDate;
 @ToString
 public class VoteTo extends BaseTo {
 
-    int restaurantId;
+    private int restaurantId;
 
-    LocalDate voteDate;
+    private LocalDate voteDate;
 
     public VoteTo(Integer id, int restaurantId, LocalDate voteDate) {
         super(id);
