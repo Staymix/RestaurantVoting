@@ -21,7 +21,7 @@ public class DishService {
     private final DishRepository repository;
     private final EntityManager em;
 
-    @CacheEvict(value = "restaurantsWithMenu", allEntries = true)
+    @CacheEvict(value = "restaurantsWithMenu", key = "#dish.dishDate")
     @Transactional
     public Dish create(Dish dish, int restaurantId) {
         notNull(dish, "dish must not be null");
@@ -47,7 +47,7 @@ public class DishService {
         return repository.getMenuByDate(restaurantId, date);
     }
 
-    @CacheEvict(value = "restaurantsWithMenu", allEntries = true)
+    @CacheEvict(value = "restaurantsWithMenu", key = "#dish.dishDate")
     @Transactional
     public void update(Dish dish, int restaurantId) {
         notNull(dish, "dish must not be null");

@@ -29,7 +29,7 @@ public class VoteService {
     private final RestaurantService restaurantService;
     private final EntityManager em;
 
-    @CacheEvict(value = "votes", allEntries = true)
+    @CacheEvict(value = "votes", key = "#userId")
     @Transactional
     public Vote create(int userId, int restaurantId) {
         if (hasVoteTodayByUser(userId, restaurantId)) {
@@ -42,12 +42,12 @@ public class VoteService {
         return repository.getByUserAndDate(userId, LocalDate.now()).orElse(null);
     }
 
-    @Cacheable("votes")
+    @Cacheable(value = "votes", key = "#userId")
     public List<Vote> getAll(int userId) {
         return repository.getAll(userId);
     }
 
-    @CacheEvict(value = "votes", allEntries = true)
+    @CacheEvict(value = "votes", key = "#userId")
     @Transactional
     public void update(int userId, int restaurantId) {
         Vote updated = ValidationUtil.checkNotFound(getTodayByUser(userId), "Vote for today is not found for the user id = " + userId);
