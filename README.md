@@ -1,36 +1,55 @@
-## Graduation project "Restaurant Voting" [TopJava Course](https://javaops.ru/view/topjava)
-
--------------------------------------------------------------
-[Technical requirement:](https://github.com/Staymix/topjava/blob/doc/graduation.md#technical-requirement)
-Design and implement a REST API using Hibernate/Spring/SpringMVC (Spring-Boot preferred!) without frontend.
-
-The task is:
-
-Build a voting system for deciding where to have lunch.
-
-- 2 types of users: admin and regular users
-- Admin can input a restaurant and it's lunch menu of the day (2-5 items usually, just a dish name and price)
-- Menu changes each day (admins do the updates)
-- Users can vote for a restaurant they want to have lunch at today
-- Only one vote counted per user
-- If user votes again the same day:
-    - If it is before 11:00 we assume that he changed his mind.
-    - If it is after 11:00 then it is too late, vote can't be changed
-
-Each restaurant provides a new menu each day.
-
-As a result, provide a link to github repository. It should contain the code, README.md with API documentation and
-couple curl commands to test it (better - link to Swagger).
-
--------------------------------------------------------------
-
-- Stack: [JDK 17](http://jdk.java.net/17/), Spring Boot 3.x, Lombok, H2, Caffeine Cache, SpringDoc OpenApi 2.x,
-  Mapstruct, Liquibase
-- Run: `mvn spring-boot:run` in root directory.
+## Проект "Голосование за рестораны"
 
 -----------------------------------------------------
+
+### Описание
+
+#### Проект представляет собой REST API, разработанное с использованием Spring Boot/Hibernate/Spring MVC (без фронтенда). Приложение позволяет осуществлять голосование (и ряд других действий в зависимости от роли пользователя) для определения места обеда из предложенных ресторанов и меню:
+1. #### Типы пользователей:
+    Администраторы: Могут добавлять рестораны и меню обеда на текущий день.
+    Обычные пользователи: Могут голосовать за ресторан, в котором хотели бы обедать в текущий день и просматривать меню.
+2. #### Функциональность администраторов:
+    Добавление ресторана.
+    Обновление меню обеда на текущий день.
+3. #### Функциональность обычных пользователей:
+    Голосование за ресторан на обед текущего дня.
+    Однократное голосование за один ресторан в день.
+    Возможность изменить голос до 11:00. После этого времени изменение голоса недоступно.
+4. #### Работа с ресторанами и меню:
+    Рестораны предоставляют меню на обед каждый день.
+    Меню состоит из 2-5 блюд с указанием названия и цены.
+    Меню обновляется каждый день администраторами.
+
+###### Разработан в соответствии с требованиями [технического задания](https://github.com/Staymix/RestaurantVoting/blob/main/technical_requirement.md).
+
+-----------------------------------------------------
+
+### Технологии
+
+- Java 17
+- REST
+- Spring Boot, Data, MVC
+- Hibernate
+- Spring Security
+- Maven
+- Lombok
+- H2
+- Caffeine Cache
+- Swagger
+- OpenAPI 3.0
+
+-----------------------------------------------------
+
+### Запуск: 
+`mvn spring-boot:run` в корневой директории.
+
+-----------------------------------------------------
+
+### Тестирование:
+
 [Swagger UI - REST API documentation](http://localhost:8080/)  
-Credentials:
+
+Данные для аутентификации:
 
 ```
 User:  user@yandex.ru / password
